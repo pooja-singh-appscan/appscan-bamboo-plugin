@@ -18,7 +18,6 @@ import com.hcl.appscan.bamboo.plugin.util.Utility;
 import com.hcl.appscan.sdk.CoreConstants;
 import com.hcl.appscan.sdk.logging.IProgress;
 import com.hcl.appscan.sdk.results.NonCompliantIssuesResultProvider;
-import com.hcl.appscan.sdk.scan.IScan;
 import com.hcl.appscan.sdk.scanners.sast.SASTConstants;
 import com.hcl.appscan.sdk.scanners.sast.SASTScan;
 import com.hcl.appscan.sdk.scanners.sast.SASTScanFactory;
@@ -100,14 +99,14 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 			} catch (IOException e) {
 			}
 		} else {
-			properties.put(SASTConstants.SAVE_LOCATION, workingDir.getAbsolutePath());
+			addEntryMap(properties, SASTConstants.SAVE_LOCATION, workingDir.getAbsolutePath());
 		}
 		target = Utility.resolvePath(target, taskContext);
 		if (!new File(target).exists()) throw new TaskException(logger.getText("err.custom.target.path"));
 
-		properties.put(CoreConstants.TARGET, target);
+		addEntryMap(properties, CoreConstants.TARGET, target);
 		if (taskContext.getConfigurationMap().getAsBoolean(OPEN_SOURCE_ONLY))
-			properties.put(CoreConstants.OPEN_SOURCE_ONLY, "");
+			addEntryMap(properties, CoreConstants.OPEN_SOURCE_ONLY, "");
 
 		return properties;
 	}

@@ -64,16 +64,16 @@ public class ASoCDASTScanner extends AbstractASoCScanner {
 	protected Map<String, String> getScanProperties(TaskContext taskContext) throws TaskException {
 		Map<String, String> properties = super.getScanProperties(taskContext);
 		ConfigurationMap configurationMap = taskContext.getConfigurationMap();
-		properties.put(CoreConstants.TARGET, configurationMap.get(CoreConstants.TARGET));
-		properties.put(CFG_SEL_TEST_OPTIMIZE, configurationMap.get(CFG_SEL_TEST_OPTIMIZE));
-		properties.put(CFG_LOGIN_USER, configurationMap.get(CFG_LOGIN_USER));
-		properties.put(CFG_LOGIN_PASSWORD, configurationMap.get(CFG_LOGIN_PASSWORD));
-		properties.put(CFG_THIRD_CREDENTIAL, configurationMap.get(CFG_THIRD_CREDENTIAL));
-		properties.put(CFG_SEL_PRESENCE, configurationMap.get(CFG_SEL_PRESENCE));
+		addEntryMap(properties, CoreConstants.TARGET, configurationMap.get(CoreConstants.TARGET));
+		addEntryMap(properties, CFG_SEL_TEST_OPTIMIZE, configurationMap.get(CFG_SEL_TEST_OPTIMIZE));
+		addEntryMap(properties, CFG_LOGIN_USER, configurationMap.get(CFG_LOGIN_USER));
+		addEntryMap(properties, CFG_LOGIN_PASSWORD, configurationMap.get(CFG_LOGIN_PASSWORD));
+		addEntryMap(properties, CFG_THIRD_CREDENTIAL, configurationMap.get(CFG_THIRD_CREDENTIAL));
+		addEntryMap(properties, CFG_SEL_PRESENCE, configurationMap.get(CFG_SEL_PRESENCE));
 		String scanFile = configurationMap.get(CFG_SCAN_FILE);
-		properties.put(CFG_SCAN_FILE, scanFile);
+		addEntryMap(properties, CFG_SCAN_FILE, scanFile);
 		String scanType = (scanFile != null && !scanFile.trim().isEmpty()) ? SCAN_OPTION_CUSTOM : configurationMap.get(CFG_SEL_SCAN_TYPE);
-		properties.put(CFG_SEL_SCAN_TYPE, scanType);
+		addEntryMap(properties, CFG_SEL_SCAN_TYPE, scanType);
 		return properties;
 	}
 

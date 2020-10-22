@@ -78,15 +78,19 @@ public abstract class AbstractASoCScanner implements IScanner {
 
 	protected Map<String, String> getScanProperties(TaskContext taskContext) throws TaskException {
 		Map<String, String> properties = new HashMap<String, String>();
-		properties.put(CoreConstants.SCANNER_TYPE, getScannerType());
-		properties.put(CoreConstants.APP_ID, taskContext.getConfigurationMap().get(CFG_APP_ID));
-		properties.put(CoreConstants.SCAN_NAME, taskContext.getBuildContext().getPlanName() + "_" + SystemUtil.getTimeStamp()); //$NON-NLS-1$
-		properties.put(CoreConstants.EMAIL_NOTIFICATION, Boolean.toString(false));
-		properties.put(SASTConstants.APPSCAN_IRGEN_CLIENT, "Bamboo");
-		properties.put(SASTConstants.APPSCAN_CLIENT_VERSION, "1");
-		properties.put(SASTConstants.IRGEN_CLIENT_PLUGIN_VERSION, "1");
-		properties.put("ClientType", "bamboo-" + SystemUtil.getOS() + "-" + "1");
+		addEntryMap(properties, CoreConstants.SCANNER_TYPE, getScannerType());
+		addEntryMap(properties, CoreConstants.APP_ID, taskContext.getConfigurationMap().get(CFG_APP_ID));
+		addEntryMap(properties, CoreConstants.SCAN_NAME, taskContext.getBuildContext().getPlanName() + "_" + SystemUtil.getTimeStamp()); //$NON-NLS-1$
+		addEntryMap(properties, CoreConstants.EMAIL_NOTIFICATION, Boolean.toString(false));
+		addEntryMap(properties, SASTConstants.APPSCAN_IRGEN_CLIENT, "Bamboo");
+		addEntryMap(properties, SASTConstants.APPSCAN_CLIENT_VERSION, System.getProperty(SDK_VERSION_KEY, ""));
+		addEntryMap(properties, SASTConstants.IRGEN_CLIENT_PLUGIN_VERSION, "1");
+		addEntryMap(properties, "ClientType", "Bamboo-" + SystemUtil.getOS() + "-" + "1");
 		return properties;
+	}
+
+	protected void addEntryMap(Map<String, String> m, String key, Object value) {
+		if (value != null) m.put(key, value.toString().trim());
 	}
 
 	@Override

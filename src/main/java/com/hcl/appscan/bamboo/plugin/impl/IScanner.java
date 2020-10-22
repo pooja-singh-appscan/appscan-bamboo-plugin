@@ -12,6 +12,7 @@ import java.io.File;
 
 public interface IScanner extends ISASTConstants, IJSONConstants, IArtifactPublisher {
 	public String SA_DIR = ".sa";
+	public String SDK_VERSION_KEY = "atlassian.sdk.version";
 
 	public void setUsername(String username);
 
