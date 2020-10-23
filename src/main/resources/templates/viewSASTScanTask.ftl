@@ -1,4 +1,3 @@
-
 [@ui.bambooSection titleKey="section.asoc"]
 	[@ww.label labelKey="label.cred" name="selectedCred"/]
 	[@ww.label labelKey="label.appid" name="appId"/]
@@ -22,7 +21,7 @@
 			[@ww.checkbox labelKey="label.open.source.only" name="openSourceOnly" toggle="true" disabled="true"/]
 			[@ww.label labelKey="label.custom.target" name="customTarget"/]
 		[/@ui.bambooSection]
-    [/@ui.bambooSection]
+	[/@ui.bambooSection]
 	[@ww.checkbox labelKey="label.suspend" name="suspendJob" toggle="true" disabled="true"/]
 [/@ui.bambooSection]
 

@@ -1,3 +1,8 @@
+/**
+ * (c) Copyright HCL Technologies Ltd. 2020.
+ * LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package com.hcl.appscan.bamboo.plugin.util;
 
 import com.hcl.appscan.bamboo.plugin.impl.LogHelper;
@@ -25,7 +30,6 @@ public class ScanProgress implements IProgress, Serializable {
 
     @Override
     public void setStatus(Message message, Throwable throwable) {
-//        String m = message.getText() + (throwable != null ? ("\n" + throwable.getLocalizedMessage()) : "");
         String m = throwable == null ? logger.getText(message.getText()) : logger.getText(message.getText(), throwable);
         if (message.getSeverity() == Message.INFO) {
             logger.info(m);

@@ -153,9 +153,6 @@ public class SASTScanTaskConfigurator extends AbstractTaskConfigurator implement
 	
 	@Override
 	public Set<Requirement> calculateRequirements(TaskDefinition taskDefinition) {
-//		String selectedUtil = SA_CLIENT_UTIL_KEY + '.' + taskDefinition.getConfiguration().get(CFG_SELECTED_UTIL);
-//		Requirement req = new RequirementImpl(SYS_BUILDER_PREFIX + selectedUtil, true, ".*"); //$NON-NLS-1$
-//		return Collections.singleton(req);
 		return new HashSet<Requirement>();
 	}
 }

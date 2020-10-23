@@ -47,5 +47,5 @@ public interface ISASTConstants {
 	String OPTIMIZATION_FASTEST			= "Fastest";				//$NON-NLS-1$
 	String NO_OPTIMIZATION				= "NoOptimization";			//$NON-NLS-1$
 
-	File BAMBOO_APPSCAN_INSTALL_DIR		= new File(System.getProperty("user.dir"),".appscan"); //$NON-NLS-1$ //$NON-NLS-2$
+	File BAMBOO_APPSCAN_INSTALL_DIR		= new File(System.getProperty("user.dir"),".appscan");	//$NON-NLS-1$ //$NON-NLS-2$
 }
