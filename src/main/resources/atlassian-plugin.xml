@@ -28,10 +28,10 @@ LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
         <context>com.hcl.appscan.bamboo.plugin</context>
     </web-resource -->
     
-  	<taskType key="sastScanTask" name="SAST Scan Task" class="com.hcl.appscan.bamboo.plugin.impl.ScannerTask">
-  		<description>Task to run a SAST scan</description>
+  	<taskType key="scannerTask" name="Appscan Security Scan Task" class="com.hcl.appscan.bamboo.plugin.impl.ScannerTask">
+  		<description>Task to run a Security scan</description>
   		<category name="test"/>
-  		<configuration class="com.hcl.appscan.bamboo.plugin.impl.SASTScanTaskConfigurator"/>
+  		<configuration class="com.hcl.appscan.bamboo.plugin.impl.ScanTaskConfigurator"/>
   		<resource type="freemarker" name="edit" location="templates/editSASTScanTask.ftl"/>
   		<resource type="freemarker" name="view" location="templates/viewSASTScanTask.ftl"/>
 	</taskType>

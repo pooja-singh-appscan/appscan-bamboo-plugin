@@ -14,6 +14,8 @@ import com.atlassian.core.util.FileUtils;
 import com.hcl.appscan.bamboo.plugin.auth.BambooAuthenticationProvider;
 import com.hcl.appscan.bamboo.plugin.util.ScanProgress;
 import com.hcl.appscan.sdk.CoreConstants;
+import com.hcl.appscan.sdk.error.InvalidTargetException;
+import com.hcl.appscan.sdk.error.ScannerException;
 import com.hcl.appscan.sdk.logging.IProgress;
 import com.hcl.appscan.sdk.results.NonCompliantIssuesResultProvider;
 import com.hcl.appscan.sdk.scan.IScan;
@@ -42,7 +44,7 @@ public class ASoCDASTScanner extends AbstractASoCScanner {
 	public void scheduleScan(TaskContext taskContext) throws TaskException {
 		logger.info("scan.schedule.dynamic");
 		IProgress progress = new ScanProgress(logger);
-		authenticationProvider = new BambooAuthenticationProvider(username, password);
+		authenticationProvider = new BambooAuthenticationProvider(credential);
 		DASTScanFactory scanFactory = new DASTScanFactory();
 
 		Map<String, String> scanProperties = getScanProperties(taskContext);
@@ -54,7 +56,10 @@ public class ASoCDASTScanner extends AbstractASoCScanner {
 			provider = new NonCompliantIssuesResultProvider(scan.getScanId(), scan.getType(), scan.getServiceProvider(), progress);
 			provider.setReportFormat(scan.getReportFormat());
 			resultsRetriever = new ResultsRetriever(provider);
-		} catch (Exception e) {
+		} catch (ScannerException e) {
+			logger.error("err.scan.schedule", e.getLocalizedMessage());
+			throw new TaskException(e.getLocalizedMessage(), e.getCause());
+		} catch (InvalidTargetException e) {
 			logger.error("err.scan.schedule", e.getLocalizedMessage());
 			throw new TaskException(e.getLocalizedMessage(), e.getCause());
 		}

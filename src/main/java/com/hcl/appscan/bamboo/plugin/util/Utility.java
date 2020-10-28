@@ -5,8 +5,9 @@
 
 package com.hcl.appscan.bamboo.plugin.util;
 
+import com.atlassian.bamboo.credentials.CredentialsData;
 import com.atlassian.bamboo.task.TaskContext;
-import com.hcl.appscan.bamboo.plugin.impl.ISASTConstants;
+import com.hcl.appscan.bamboo.plugin.impl.IScannerConstants;
 import com.hcl.appscan.sdk.scanners.dynamic.DASTConstants;
 import com.hcl.appscan.sdk.scanners.sast.SASTConstants;
 
@@ -26,17 +27,17 @@ public class Utility {
 
 	public static Map<String, String> getScanTypes() {
 		Map<String, String> scanOptions = new HashMap<String, String>();
-		scanOptions.put(ISASTConstants.SCAN_OPTION_STAGING, ISASTConstants.SCAN_OPTION_STAGING);
-		scanOptions.put(ISASTConstants.SCAN_OPTION_PRODUCTION, ISASTConstants.SCAN_OPTION_PRODUCTION);
+		scanOptions.put(IScannerConstants.SCAN_OPTION_STAGING, IScannerConstants.SCAN_OPTION_STAGING);
+		scanOptions.put(IScannerConstants.SCAN_OPTION_PRODUCTION, IScannerConstants.SCAN_OPTION_PRODUCTION);
 		return scanOptions;
 	}
 
 	public static Map<String, String> getTestOptimizations() {
 		Map<String, String> testOptimizations = new LinkedHashMap<String, String>();
-		testOptimizations.put(ISASTConstants.OPTIMIZATION_FAST, ISASTConstants.OPTIMIZATION_FAST);
-		testOptimizations.put(ISASTConstants.OPTIMIZATION_FASTER, ISASTConstants.OPTIMIZATION_FASTER);
-		testOptimizations.put(ISASTConstants.OPTIMIZATION_FASTEST, ISASTConstants.OPTIMIZATION_FASTEST);
-		testOptimizations.put(ISASTConstants.NO_OPTIMIZATION, ISASTConstants.NO_OPTIMIZATION);
+		testOptimizations.put(IScannerConstants.OPTIMIZATION_FAST, IScannerConstants.OPTIMIZATION_FAST);
+		testOptimizations.put(IScannerConstants.OPTIMIZATION_FASTER, IScannerConstants.OPTIMIZATION_FASTER);
+		testOptimizations.put(IScannerConstants.OPTIMIZATION_FASTEST, IScannerConstants.OPTIMIZATION_FASTEST);
+		testOptimizations.put(IScannerConstants.NO_OPTIMIZATION, IScannerConstants.NO_OPTIMIZATION);
 		return testOptimizations;
 	}
 
@@ -46,5 +47,20 @@ public class Utility {
 			return new File(taskContext.getWorkingDirectory(), path).getAbsolutePath();
 		}
 		return path;
+	}
+
+	public static String getUserName(CredentialsData credential) {
+		return (credential != null ? credential.getConfiguration().get("username") : null); //$NON-NLS-1$
+	}
+
+	public static String getPlainTextPassword(CredentialsData credential) {
+		if (credential == null) return null;
+		String password = credential.getConfiguration().get("password"); //$NON-NLS-1$
+		try {
+			password = Decrypt.decrypt(password);
+		} catch (Exception e) {
+			// Ignore any Exception Occurred
+		}
+		return password;
 	}
 }

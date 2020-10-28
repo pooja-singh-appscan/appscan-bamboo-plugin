@@ -6,6 +6,7 @@
 package com.hcl.appscan.bamboo.plugin.impl;
 
 import com.atlassian.bamboo.build.artifact.ArtifactManager;
+import com.atlassian.bamboo.credentials.CredentialsData;
 import com.atlassian.bamboo.plan.artifact.ArtifactDefinitionContext;
 import com.atlassian.bamboo.plan.artifact.ArtifactDefinitionContextImpl;
 import com.atlassian.bamboo.plan.artifact.ArtifactPublishingResult;
@@ -13,7 +14,6 @@ import com.atlassian.bamboo.task.TaskContext;
 import com.atlassian.bamboo.task.TaskException;
 import com.atlassian.bamboo.variable.VariableContext;
 import com.atlassian.bamboo.variable.VariableDefinitionContext;
-import com.hcl.appscan.bamboo.plugin.util.Decrypt;
 import com.hcl.appscan.sdk.CoreConstants;
 import com.hcl.appscan.sdk.results.IResultsProvider;
 import com.hcl.appscan.sdk.scanners.sast.SASTConstants;
@@ -30,8 +30,7 @@ public abstract class AbstractASoCScanner implements IScanner {
 	protected ResultsRetriever resultsRetriever;
 	protected IResultsProvider provider;
 
-	protected String username;
-	protected String password;
+	protected CredentialsData credential;
 	protected File workingDir;
 	protected String utilPath;
 
@@ -63,17 +62,8 @@ public abstract class AbstractASoCScanner implements IScanner {
 	}
 
 	@Override
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	@Override
-	public void setPassword(String password) {
-		try {
-			this.password = Decrypt.decrypt(password);
-		} catch (Exception e) {
-			this.password = password;
-		}
+	public void setCredential(CredentialsData credentials) {
+		this.credential = credentials;
 	}
 
 	protected Map<String, String> getScanProperties(TaskContext taskContext) throws TaskException {

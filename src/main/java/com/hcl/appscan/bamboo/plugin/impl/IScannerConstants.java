@@ -8,7 +8,7 @@ package com.hcl.appscan.bamboo.plugin.impl;
 
 import java.io.File;
 
-public interface ISASTConstants {
+public interface IScannerConstants {
 
 	String SYS_BUILDER_PREFIX			= "system.builder.";		//$NON-NLS-1$
 	String SA_CLIENT_UTIL_KEY 			= "saclientutil";			//$NON-NLS-1$

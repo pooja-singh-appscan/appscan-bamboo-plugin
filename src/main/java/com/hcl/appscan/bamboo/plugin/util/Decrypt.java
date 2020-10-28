@@ -25,7 +25,7 @@ public class Decrypt {
 
 	public static String decrypt(String arg) throws Exception {
 		String decryptValue = decryptValue(arg);
-		System.out.println(decryptValue);
+//		System.out.println(decryptValue);
 		return decryptValue;
 	}
 

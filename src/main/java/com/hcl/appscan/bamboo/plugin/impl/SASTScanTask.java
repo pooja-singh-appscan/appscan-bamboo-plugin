@@ -34,7 +34,7 @@ import com.atlassian.plugin.spring.scanner.annotation.component.Scanned;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 
 @Scanned
-public class SASTScanTask implements TaskType, ISASTConstants, IArtifactPublisher {
+public class SASTScanTask implements TaskType, IScannerConstants, IArtifactPublisher {
 	
 	private static final String SA_DIR 	= ".sa"; //$NON-NLS-1$
 	

@@ -6,7 +6,6 @@
 
 package com.hcl.appscan.bamboo.plugin.impl;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
@@ -27,13 +26,12 @@ import com.atlassian.bamboo.utils.error.ErrorCollection;
 import com.atlassian.bamboo.utils.i18n.I18nBean;
 import com.atlassian.bamboo.utils.i18n.I18nBeanFactory;
 import com.atlassian.bamboo.v2.build.agent.capability.Requirement;
-import com.atlassian.bamboo.v2.build.agent.capability.RequirementImpl;
 import com.atlassian.bamboo.ww2.actions.build.admin.create.UIConfigSupport;
 import com.atlassian.plugin.spring.scanner.annotation.component.Scanned;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 
 @Scanned
-public class SASTScanTaskConfigurator extends AbstractTaskConfigurator implements TaskRequirementSupport, ISASTConstants {
+public class ScanTaskConfigurator extends AbstractTaskConfigurator implements TaskRequirementSupport, IScannerConstants {
 	
 	private static final String CRED_LIST = "credList";	//$NON-NLS-1$
 	private static final String TEST_TYPE_LIST = "testTypeList";	//$NON-NLS-1$
@@ -44,7 +42,7 @@ public class SASTScanTaskConfigurator extends AbstractTaskConfigurator implement
 	private CredentialsManager credentialsManager;
 	private I18nBean i18nBean;
 	
-	public SASTScanTaskConfigurator(
+	public ScanTaskConfigurator(
 			@ComponentImport UIConfigSupport uiConfigSupport, 
 			@ComponentImport CredentialsManager credentialsManager, 
 			@ComponentImport I18nBeanFactory i18nBeanFactory) {

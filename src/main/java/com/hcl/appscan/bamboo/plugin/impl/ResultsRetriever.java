@@ -16,15 +16,15 @@ public class ResultsRetriever {
 	private int retryInterval;
 
 	public ResultsRetriever(IResultsProvider provider) {
-		this(provider, ISASTConstants.FAILED_RETRY_COUNT, ISASTConstants.MIN_RETRY_INTERVAL);
+		this(provider, IScannerConstants.FAILED_RETRY_COUNT, IScannerConstants.MIN_RETRY_INTERVAL);
 	}
 
 	public ResultsRetriever(IResultsProvider provider, int retryFailedCount, int retryInterval) {
 		this.provider = provider;
 		this.status = "";
 		this.message = "";
-		this.retryInterval = Math.max(retryInterval, ISASTConstants.MIN_RETRY_INTERVAL);
-		this.retryFailedCount = Math.max(retryFailedCount, ISASTConstants.FAILED_RETRY_COUNT);
+		this.retryInterval = Math.max(retryInterval, IScannerConstants.MIN_RETRY_INTERVAL);
+		this.retryFailedCount = Math.max(retryFailedCount, IScannerConstants.FAILED_RETRY_COUNT);
 	}
 
 	public void setRetryFailedCount(int retryFailedCount) {
@@ -36,8 +36,8 @@ public class ResultsRetriever {
 	}
 
 	public void waitForResults() {
-		retryInterval = Math.max(retryInterval, ISASTConstants.MIN_RETRY_INTERVAL);
-		retryFailedCount = Math.max(retryFailedCount, ISASTConstants.FAILED_RETRY_COUNT);
+		retryInterval = Math.max(retryInterval, IScannerConstants.MIN_RETRY_INTERVAL);
+		retryFailedCount = Math.max(retryFailedCount, IScannerConstants.FAILED_RETRY_COUNT);
 
 		int failedCount = 0;
 		while (failedCount < retryFailedCount) {

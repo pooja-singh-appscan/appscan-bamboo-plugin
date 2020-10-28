@@ -26,7 +26,7 @@ import com.atlassian.utils.process.ExternalProcess;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class SASTScanner implements ISASTConstants, IJSONConstants {
+public class SASTScanner implements IScannerConstants, IJSONConstants {
 	
 	private static final String APPSCAN_OPTS		= "APPSCAN_OPTS";		//$NON-NLS-1$
 	private static final String APPSCAN_INTERVAL	= "APPSCAN_INTERVAL";	//$NON-NLS-1$

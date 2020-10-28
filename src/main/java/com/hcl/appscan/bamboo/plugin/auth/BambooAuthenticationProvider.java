@@ -5,6 +5,8 @@
 
 package com.hcl.appscan.bamboo.plugin.auth;
 
+import com.atlassian.bamboo.credentials.CredentialsData;
+import com.hcl.appscan.bamboo.plugin.util.Utility;
 import com.hcl.appscan.sdk.auth.AuthenticationHandler;
 import com.hcl.appscan.sdk.auth.IAuthenticationProvider;
 import com.hcl.appscan.sdk.auth.LoginType;
@@ -16,13 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BambooAuthenticationProvider implements IAuthenticationProvider, Serializable {
-	String userName;
-	String password;
+	CredentialsData credential;
 	String token;
 
-	public BambooAuthenticationProvider(String userName, String password) {
-		this.userName = userName;
-		this.password = password;
+	public BambooAuthenticationProvider(CredentialsData credential) {
+		this.credential = credential;
 		token = null;
 	}
 
@@ -32,7 +32,7 @@ public class BambooAuthenticationProvider implements IAuthenticationProvider, Se
 		AuthenticationHandler handler = new AuthenticationHandler(this);
 
 		try {
-			isExpired = handler.isTokenExpired() && !handler.login(userName, password, true, LoginType.ASoC_Federated);
+			isExpired = handler.isTokenExpired() && !handler.login(Utility.getUserName(credential), Utility.getPlainTextPassword(credential), true, LoginType.ASoC_Federated);
 		} catch (Exception e) {
 			isExpired = false;
 		}
@@ -54,7 +54,7 @@ public class BambooAuthenticationProvider implements IAuthenticationProvider, Se
 
 	@Override
 	public String getServer() {
-		return SystemUtil.getDefaultServer();
+		return SystemUtil.getServer(Utility.getUserName(credential));
 	}
 
 	@Override

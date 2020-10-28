@@ -27,7 +27,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 @Scanned
-public class ScannerTask implements TaskType, ISASTConstants {
+public class ScannerTask implements TaskType, IScannerConstants {
 	private static final String SA_DIR = ".sa"; //$NON-NLS-1$
 
 	private LogHelper logger;
@@ -56,15 +56,10 @@ public class ScannerTask implements TaskType, ISASTConstants {
 	private void setUsernameAndPassword(TaskContext taskContext) {
 		String id = taskContext.getConfigurationMap().get(CFG_SELECTED_CRED);
 		CredentialsData credentials = credentialsManager.getCredentials(Long.parseLong(id));
-
-		String username = credentials.getConfiguration().get("username"); //$NON-NLS-1$
-		scanner.setUsername(username);
-
-		String password = credentials.getConfiguration().get("password"); //$NON-NLS-1$
-		scanner.setPassword(password);
+		scanner.setCredential(credentials);
 
 		// this ensures password is masked in build log
-		taskContext.getBuildContext().getVariableContext().addLocalVariable("asoc_password", password); //$NON-NLS-1$
+		taskContext.getBuildContext().getVariableContext().addLocalVariable("asoc_password", credentials.getConfiguration().get("password")); //$NON-NLS-1$
 	}
 
 	private boolean checkFail(ConfigurationMap config, String key, long actual) {

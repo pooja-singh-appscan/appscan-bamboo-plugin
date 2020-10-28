@@ -5,18 +5,17 @@
 
 package com.hcl.appscan.bamboo.plugin.impl;
 
+import com.atlassian.bamboo.credentials.CredentialsData;
 import com.atlassian.bamboo.task.TaskContext;
 import com.atlassian.bamboo.task.TaskException;
 
 import java.io.File;
 
-public interface IScanner extends ISASTConstants, IJSONConstants, IArtifactPublisher {
+public interface IScanner extends IScannerConstants, IJSONConstants, IArtifactPublisher {
 	public String SA_DIR = ".sa";
 	public String SDK_VERSION_KEY = "atlassian.sdk.version";
 
-	public void setUsername(String username);
-
-	public void setPassword(String password);
+	public void setCredential(CredentialsData credentials);
 
 	public void setWorkingDir(File workingDir);
 
