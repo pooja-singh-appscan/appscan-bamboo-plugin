@@ -53,6 +53,9 @@ public class ASoCDASTScanner extends AbstractASoCScanner {
 			scan.run();
 			jobId = scan.getScanId();
 			logger.info("scan.schedule.success", jobId);
+			String homepageUrl = authenticationProvider.getServer() + "/serviceui/main/myapps/portfolio";
+			logger.info("asoc.homepage.url", homepageUrl);
+
 			provider = new NonCompliantIssuesResultProvider(scan.getScanId(), scan.getType(), scan.getServiceProvider(), progress);
 			provider.setReportFormat(scan.getReportFormat());
 			resultsRetriever = new ResultsRetriever(provider);

@@ -19,7 +19,6 @@ import java.util.Map;
 public class Utility {
 	public static Map<String, String> getTestTypes() {
 		Map<String, String> scanTypes = new HashMap<String, String>();
-		scanTypes.put("", "");
 		scanTypes.put(SASTConstants.STATIC_ANALYZER, SASTConstants.SAST);
 		scanTypes.put(DASTConstants.DYNAMIC_ANALYZER, DASTConstants.DAST);
 		return scanTypes;
@@ -39,6 +38,13 @@ public class Utility {
 		testOptimizations.put(IScannerConstants.OPTIMIZATION_FASTEST, IScannerConstants.OPTIMIZATION_FASTEST);
 		testOptimizations.put(IScannerConstants.NO_OPTIMIZATION, IScannerConstants.NO_OPTIMIZATION);
 		return testOptimizations;
+	}
+
+	public static Map<String, String> getFailBuildTypes() {
+		Map<String, String> failBuildTypes = new LinkedHashMap<String, String>();
+		failBuildTypes.put(IScannerConstants.FAIL_NON_COMPLIANCE, "Fail build for non-compliance with application policies");
+		failBuildTypes.put(IScannerConstants.FAIL_SEVERITY_LEVEL, "Fail build on Severity");
+		return failBuildTypes;
 	}
 
 	public static String resolvePath(String path, TaskContext taskContext) {

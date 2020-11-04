@@ -16,7 +16,7 @@ LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
 
     <!-- add our i18n resource -->
     <resource type="i18n" name="i18n" location="com.hcl.appscan.bamboo.plugin.i18n"/>
-    
+
     <!-- add our web resources -->
     <!-- web-resource key="com.hcl.appscan.bamboo.plugin-resources" name="com.hcl.appscan.bamboo.plugin Web Resources">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
@@ -28,12 +28,13 @@ LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
         <context>com.hcl.appscan.bamboo.plugin</context>
     </web-resource -->
     
-  	<taskType key="scannerTask" name="Appscan Security Scan Task" class="com.hcl.appscan.bamboo.plugin.impl.ScannerTask">
+  	<taskType key="scannerTask" name="AppScan Security Scan" class="com.hcl.appscan.bamboo.plugin.impl.ScannerTask">
   		<description>Task to run a Security scan</description>
   		<category name="test"/>
   		<configuration class="com.hcl.appscan.bamboo.plugin.impl.ScanTaskConfigurator"/>
-  		<resource type="freemarker" name="edit" location="templates/editSASTScanTask.ftl"/>
-  		<resource type="freemarker" name="view" location="templates/viewSASTScanTask.ftl"/>
+  		<resource type="freemarker" name="edit" location="templates/editScanTask.ftl"/>
+  		<resource type="freemarker" name="view" location="templates/viewScanTask.ftl"/>
+        <resource type="download" name="icon" location="images/appscan_80x80.png"/>
 	</taskType>
     
 </atlassian-plugin>

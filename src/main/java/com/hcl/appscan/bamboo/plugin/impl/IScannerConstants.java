@@ -17,6 +17,7 @@ public interface IScannerConstants {
 	String CFG_SELECTED_CRED			= "selectedCred";			//$NON-NLS-1$
 	String CFG_APP_ID					= "appId";					//$NON-NLS-1$
 	String CFG_SUSPEND					= "suspendJob";				//$NON-NLS-1$
+	String CFG_MAX_TOTAL				= "maxTotal";				//$NON-NLS-1$
 	String CFG_MAX_HIGH					= "maxHigh";				//$NON-NLS-1$
 	String CFG_MAX_MEDIUM				= "maxMedium";				//$NON-NLS-1$
 	String CFG_MAX_LOW					= "maxLow";					//$NON-NLS-1$
@@ -28,8 +29,8 @@ public interface IScannerConstants {
 	String CFG_THIRD_CREDENTIAL			= "extraField";				//$NON-NLS-1$
 	String CFG_SEL_PRESENCE				= "PresenceId";				//$NON-NLS-1$
 	String CFG_SCAN_FILE				= "ScanFile";				//$NON-NLS-1$
-	String CFG_ADDITIONAL_OPTION_ST		= "additionalOptionsSt";	//$NON-NLS-1$
-	String CFG_ADDITIONAL_OPTION_DYN	= "additionalOptionsDyn";	//$NON-NLS-1$
+	String CFG_EMAIL_NOTIFICATION		= "emailNotification";		//$NON-NLS-1$
+	String CFG_FAIL_BUILD				= "selectedFailBuild";		//$NON-NLS-1$
 
 	Integer FAILED_RETRY_COUNT			= 5;						//$NON-NLS-1$
 	Integer MIN_RETRY_INTERVAL			= 30;						//$NON-NLS-1$
@@ -40,7 +41,8 @@ public interface IScannerConstants {
 	String SCAN_OPTION_PRODUCTION		= "Production";				//$NON-NLS-1$
 	String SCAN_OPTION_CUSTOM			= "Custom";					//$NON-NLS-1$
 	String OPEN_SOURCE_ONLY				= "openSourceOnly";			//$NON-NLS-1$
-	String CUSTOM_TARGET				= "customTarget";			//$NON-NLS-1$
+	String FAIL_NON_COMPLIANCE			= "failBuildNonCompliance";	//$NON-NLS-1$
+	String FAIL_SEVERITY_LEVEL			= "failBuildSeverityLevel";	//$NON-NLS-1$
 
 	String OPTIMIZATION_FAST			= "Fast";					//$NON-NLS-1$
 	String OPTIMIZATION_FASTER			= "Faster";					//$NON-NLS-1$

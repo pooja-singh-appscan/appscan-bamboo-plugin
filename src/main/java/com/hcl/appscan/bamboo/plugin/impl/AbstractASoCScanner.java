@@ -6,6 +6,7 @@
 package com.hcl.appscan.bamboo.plugin.impl;
 
 import com.atlassian.bamboo.build.artifact.ArtifactManager;
+import com.atlassian.bamboo.configuration.ConfigurationMap;
 import com.atlassian.bamboo.credentials.CredentialsData;
 import com.atlassian.bamboo.plan.artifact.ArtifactDefinitionContext;
 import com.atlassian.bamboo.plan.artifact.ArtifactDefinitionContextImpl;
@@ -34,6 +35,7 @@ public abstract class AbstractASoCScanner implements IScanner {
 	protected File workingDir;
 	protected String utilPath;
 
+	protected long total;
 	protected long high;
 	protected long medium;
 	protected long low;
@@ -71,7 +73,7 @@ public abstract class AbstractASoCScanner implements IScanner {
 		addEntryMap(properties, CoreConstants.SCANNER_TYPE, getScannerType());
 		addEntryMap(properties, CoreConstants.APP_ID, taskContext.getConfigurationMap().get(CFG_APP_ID));
 		addEntryMap(properties, CoreConstants.SCAN_NAME, taskContext.getBuildContext().getPlanName() + "_" + SystemUtil.getTimeStamp()); //$NON-NLS-1$
-		addEntryMap(properties, CoreConstants.EMAIL_NOTIFICATION, Boolean.toString(false));
+		addEntryMap(properties, CoreConstants.EMAIL_NOTIFICATION, taskContext.getConfigurationMap().getAsBoolean(CFG_EMAIL_NOTIFICATION));
 		addEntryMap(properties, SASTConstants.APPSCAN_IRGEN_CLIENT, "Bamboo");
 		addEntryMap(properties, SASTConstants.APPSCAN_CLIENT_VERSION, System.getProperty(SDK_VERSION_KEY, ""));
 		addEntryMap(properties, SASTConstants.IRGEN_CLIENT_PLUGIN_VERSION, "1");
@@ -92,6 +94,28 @@ public abstract class AbstractASoCScanner implements IScanner {
 	@Override
 	public void setWorkingDir(File workingDir) {
 		this.workingDir = workingDir;
+	}
+
+	@Override
+	public Map<String, String> getFailSeverityLevelConfig(TaskContext taskContext) {
+		ConfigurationMap configurationMap = taskContext.getConfigurationMap();
+		Map<String, String> severityLevel = new HashMap<String, String>();
+		String total = configurationMap.get(CFG_MAX_TOTAL);
+		if (FAIL_NON_COMPLIANCE.equals(configurationMap.get(CFG_FAIL_BUILD))) {
+			total = "0";
+		} else {
+			severityLevel.put(CFG_MAX_HIGH, configurationMap.get(CFG_MAX_HIGH));
+			severityLevel.put(CFG_MAX_MEDIUM, configurationMap.get(CFG_MAX_MEDIUM));
+			severityLevel.put(CFG_MAX_LOW, configurationMap.get(CFG_MAX_LOW));
+		}
+		severityLevel.put(CFG_MAX_TOTAL, total);
+
+		return severityLevel;
+	}
+
+	@Override
+	public long getTotalCount() {
+		return total;
 	}
 
 	@Override
@@ -120,6 +144,7 @@ public abstract class AbstractASoCScanner implements IScanner {
 			low = provider.getLowCount();
 			medium = provider.getMediumCount();
 			high = provider.getHighCount();
+			total = provider.getFindingsCount();
 		}
 	}
 

@@ -14,6 +14,7 @@ import java.util.Set;
 import com.hcl.appscan.bamboo.plugin.util.Utility;
 import com.hcl.appscan.sdk.CoreConstants;
 import com.hcl.appscan.sdk.scanners.dynamic.DASTConstants;
+import com.hcl.appscan.sdk.scanners.sast.SASTConstants;
 import org.apache.commons.lang3.StringUtils;
 
 import com.atlassian.bamboo.collections.ActionParametersMap;
@@ -33,10 +34,11 @@ import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 @Scanned
 public class ScanTaskConfigurator extends AbstractTaskConfigurator implements TaskRequirementSupport, IScannerConstants {
 	
-	private static final String CRED_LIST = "credList";	//$NON-NLS-1$
-	private static final String TEST_TYPE_LIST = "testTypeList";	//$NON-NLS-1$
-	private static final String SCAN_TYPE_LIST = "scanTypeList";	//$NON-NLS-1$
+	private static final String CRED_LIST = "credList";								//$NON-NLS-1$
+	private static final String TEST_TYPE_LIST = "testTypeList";					//$NON-NLS-1$
+	private static final String SCAN_TYPE_LIST = "scanTypeList";					//$NON-NLS-1$
 	private static final String TEST_OPTIMIZATION_LIST = "testOptimizationList";	//$NON-NLS-1$
+	private static final String FAIL_BUILD_LIST = "failBuildList";					//$NON-NLS-1$
 
 	private UIConfigSupport uiConfigSupport;
 	private CredentialsManager credentialsManager;
@@ -65,6 +67,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(TEST_TYPE_LIST, Utility.getTestTypes());
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
+		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes());
 	}
 	
 	@Override
@@ -73,16 +76,18 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(TEST_TYPE_LIST, Utility.getTestTypes());
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
+		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes());
 		Map<String, String> config = taskDefinition.getConfiguration();
 		context.put(CFG_SELECTED_CRED, config.get(CFG_SELECTED_CRED));
 		context.put(CFG_SEL_TEST_TYPE, config.get(CFG_SEL_TEST_TYPE));
 		context.put(CFG_APP_ID, config.get(CFG_APP_ID));
+		context.put(CFG_EMAIL_NOTIFICATION, Boolean.valueOf(config.get(CFG_EMAIL_NOTIFICATION)));
 		context.put(CFG_SUSPEND, Boolean.valueOf(config.get(CFG_SUSPEND)));
+		context.put(CFG_MAX_TOTAL, config.get(CFG_MAX_TOTAL));
 		context.put(CFG_MAX_HIGH, config.get(CFG_MAX_HIGH));
 		context.put(CFG_MAX_MEDIUM, config.get(CFG_MAX_MEDIUM));
 		context.put(CFG_MAX_LOW, config.get(CFG_MAX_LOW));
 		context.put(CoreConstants.TARGET, config.get(CoreConstants.TARGET));
-		context.put(CFG_ADDITIONAL_OPTION_DYN, config.get(CFG_ADDITIONAL_OPTION_DYN));
 		context.put(CFG_SEL_SCAN_TYPE, config.get(CFG_SEL_SCAN_TYPE));
 		context.put(CFG_SEL_TEST_OPTIMIZE, config.get(CFG_SEL_TEST_OPTIMIZE));
 		context.put(CFG_LOGIN_USER, config.get(CFG_LOGIN_USER));
@@ -90,9 +95,9 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(CFG_THIRD_CREDENTIAL, config.get(CFG_THIRD_CREDENTIAL));
 		context.put(CFG_SEL_PRESENCE, config.get(CFG_SEL_PRESENCE));
 		context.put(CFG_SCAN_FILE, config.get(CFG_SCAN_FILE));
-		context.put(CFG_ADDITIONAL_OPTION_ST, config.get(CFG_ADDITIONAL_OPTION_ST));
+		context.put(CFG_FAIL_BUILD, config.get(CFG_FAIL_BUILD));
 		context.put(OPEN_SOURCE_ONLY, config.get(OPEN_SOURCE_ONLY));
-		context.put(CUSTOM_TARGET, config.get(CUSTOM_TARGET));
+
 	}
 	
 	private void validateRequired(ActionParametersMap params, ErrorCollection errorCollection, String field) {
@@ -115,6 +120,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		if (params.getString(CFG_SEL_TEST_TYPE) != null && DASTConstants.DYNAMIC_ANALYZER.equals(params.getString(CFG_SEL_TEST_TYPE))) {
 			validateRequired(params, errorCollection, CoreConstants.TARGET);
 		}
+		validateNumber(params, errorCollection, CFG_MAX_TOTAL);
 		validateNumber(params, errorCollection, CFG_MAX_HIGH);
 		validateNumber(params, errorCollection, CFG_MAX_MEDIUM);
 		validateNumber(params, errorCollection, CFG_MAX_LOW);
@@ -126,12 +132,17 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		config.put(CFG_SELECTED_CRED, params.getString(CFG_SELECTED_CRED));
 		config.put(CFG_SEL_TEST_TYPE, params.getString(CFG_SEL_TEST_TYPE));
 		config.put(CFG_APP_ID, params.getString(CFG_APP_ID));
+		config.put(CFG_EMAIL_NOTIFICATION, Boolean.toString(params.getBoolean(CFG_EMAIL_NOTIFICATION)));
 		config.put(CFG_SUSPEND, Boolean.toString(params.getBoolean(CFG_SUSPEND)));
-		config.put(CFG_MAX_HIGH, params.getString(CFG_MAX_HIGH));
-		config.put(CFG_MAX_MEDIUM, params.getString(CFG_MAX_MEDIUM));
-		config.put(CFG_MAX_LOW, params.getString(CFG_MAX_LOW));
 		config.put(CoreConstants.TARGET, params.getString(CoreConstants.TARGET));
-		if (params.getBoolean(CFG_ADDITIONAL_OPTION_DYN)) {
+		config.put(CFG_FAIL_BUILD, params.getString(CFG_FAIL_BUILD));
+		if (FAIL_SEVERITY_LEVEL.equals(params.getString(CFG_FAIL_BUILD))) {
+			config.put(CFG_MAX_TOTAL, params.getString(CFG_MAX_TOTAL));
+			config.put(CFG_MAX_HIGH, params.getString(CFG_MAX_HIGH));
+			config.put(CFG_MAX_MEDIUM, params.getString(CFG_MAX_MEDIUM));
+			config.put(CFG_MAX_LOW, params.getString(CFG_MAX_LOW));
+		}
+		if (DASTConstants.DYNAMIC_ANALYZER.equals(params.getString(CFG_SEL_TEST_TYPE))) {
 			config.put(CFG_SEL_SCAN_TYPE, params.getString(CFG_SEL_SCAN_TYPE));
 			config.put(CFG_SEL_TEST_OPTIMIZE, params.getString(CFG_SEL_TEST_OPTIMIZE));
 			config.put(CFG_LOGIN_USER, params.getString(CFG_LOGIN_USER));
@@ -139,12 +150,9 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 			config.put(CFG_THIRD_CREDENTIAL, params.getString(CFG_THIRD_CREDENTIAL));
 			config.put(CFG_SEL_PRESENCE, params.getString(CFG_SEL_PRESENCE));
 			config.put(CFG_SCAN_FILE, params.getString(CFG_SCAN_FILE));
-			config.put(CFG_ADDITIONAL_OPTION_DYN, params.getString(CFG_ADDITIONAL_OPTION_DYN));
 		}
-		if (params.getBoolean(CFG_ADDITIONAL_OPTION_ST)) {
+		if (SASTConstants.STATIC_ANALYZER.equals(params.getString(CFG_SEL_TEST_TYPE))) {
 			config.put(OPEN_SOURCE_ONLY, params.getString(OPEN_SOURCE_ONLY));
-			config.put(CUSTOM_TARGET, params.getString(CUSTOM_TARGET));
-			config.put(CFG_ADDITIONAL_OPTION_ST, params.getString(CFG_ADDITIONAL_OPTION_ST));
 		}
 		return config;
 	}

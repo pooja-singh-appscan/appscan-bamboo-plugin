@@ -10,6 +10,7 @@ import com.atlassian.bamboo.task.TaskContext;
 import com.atlassian.bamboo.task.TaskException;
 
 import java.io.File;
+import java.util.Map;
 
 public interface IScanner extends IScannerConstants, IJSONConstants, IArtifactPublisher {
 	public String SA_DIR = ".sa";
@@ -30,6 +31,10 @@ public interface IScanner extends IScannerConstants, IJSONConstants, IArtifactPu
 	public void waitForReady(TaskContext taskContext) throws TaskException, InterruptedException;
 
 	public void downloadResult(TaskContext taskContext) throws TaskException;
+
+	public Map<String, String> getFailSeverityLevelConfig(TaskContext taskContext);
+
+	public long getTotalCount();
 
 	public long getHighCount();
 

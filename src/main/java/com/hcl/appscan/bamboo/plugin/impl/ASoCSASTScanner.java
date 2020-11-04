@@ -71,6 +71,8 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 			// Publish generated IRX File to current Build
 			publishArtifact(taskContext, logger.getText("irx.file"), workingDir, scan.getIrx().getName());
 			logger.info("scan.schedule.success", jobId);
+			String homepageUrl = authenticationProvider.getServer() + "/serviceui/main/myapps/portfolio";
+			logger.info("asoc.homepage.url", homepageUrl);
 
 			provider = new NonCompliantIssuesResultProvider(scan.getScanId(), scan.getType(), scan.getServiceProvider(), progress);
 			provider.setReportFormat(scan.getReportFormat());
@@ -87,29 +89,22 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 	@Override
 	protected Map<String, String> getScanProperties(TaskContext taskContext) throws TaskException {
 		Map<String, String> properties = super.getScanProperties(taskContext);
-		String target = taskContext.getConfigurationMap().get(CUSTOM_TARGET);
-		if (target == null || target.trim().isEmpty()) {
-			Collection<ArtifactDefinitionContext> artifacts = taskContext.getBuildContext().getArtifactContext().getDefinitionContexts();
-			try {
-				for (ArtifactDefinitionContext artifact : artifacts) {
-					FileSet fileSet = ArtifactHandlingUtils.createFileSet(taskContext.getWorkingDirectory(), artifact, true, null);
-					Iterator<Resource> iterator = fileSet.iterator();
-					while (iterator.hasNext()) {
-						Resource resource = iterator.next();
-						target = new File(workingDir, resource.getName()).getAbsolutePath();
-						break;
-					}
-					if (target != null && !target.trim().isEmpty()) break;
+		int count = 0;
+		Collection<ArtifactDefinitionContext> artifacts = taskContext.getBuildContext().getArtifactContext().getDefinitionContexts();
+		try {
+			for (ArtifactDefinitionContext artifact : artifacts) {
+				FileSet fileSet = ArtifactHandlingUtils.createFileSet(taskContext.getWorkingDirectory(), artifact, true, null);
+				Iterator<Resource> iterator = fileSet.iterator();
+				while (iterator.hasNext()) {
+					Resource resource = iterator.next();
+					count++;
 				}
-			} catch (IOException e) {
 			}
-		} else {
-			addEntryMap(properties, SASTConstants.SAVE_LOCATION, workingDir.getAbsolutePath());
+		} catch (IOException e) {
 		}
-		target = Utility.resolvePath(target, taskContext);
-		if (!new File(target).exists()) throw new TaskException(logger.getText("err.custom.target.path"));
+		if (count == 0) throw new TaskException(logger.getText("err.artifacts.unavailable"));
 
-		addEntryMap(properties, CoreConstants.TARGET, target);
+		addEntryMap(properties, CoreConstants.TARGET, workingDir.getAbsolutePath());
 		if (taskContext.getConfigurationMap().getAsBoolean(OPEN_SOURCE_ONLY))
 			addEntryMap(properties, CoreConstants.OPEN_SOURCE_ONLY, "");
 

@@ -23,6 +23,7 @@ import com.hcl.appscan.bamboo.plugin.util.ExecutorUtil;
 import com.hcl.appscan.sdk.scanners.dynamic.DASTConstants;
 import com.hcl.appscan.sdk.scanners.sast.SASTConstants;
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
@@ -62,8 +63,7 @@ public class ScannerTask implements TaskType, IScannerConstants {
 		taskContext.getBuildContext().getVariableContext().addLocalVariable("asoc_password", credentials.getConfiguration().get("password")); //$NON-NLS-1$
 	}
 
-	private boolean checkFail(ConfigurationMap config, String key, long actual) {
-		String value = config.get(key);
+	private boolean checkFail(String value, String key, long actual) {
 		if (value == null || value.equals("")) {    //$NON-NLS-1$
 			logger.info(key + ".none");        //$NON-NLS-1$
 			return false;
@@ -80,11 +80,12 @@ public class ScannerTask implements TaskType, IScannerConstants {
 	}
 
 	private TaskResultBuilder calculateResult(TaskContext taskContext, TaskResultBuilder result) {
-		ConfigurationMap config = taskContext.getConfigurationMap();
+		Map<String, String> failSeverityLevelConfig = scanner.getFailSeverityLevelConfig(taskContext);
 
-		boolean failed = checkFail(config, CFG_MAX_HIGH, scanner.getHighCount());
-		failed |= checkFail(config, CFG_MAX_MEDIUM, scanner.getMediumCount());
-		failed |= checkFail(config, CFG_MAX_LOW, scanner.getLowCount());
+		boolean failed = checkFail(failSeverityLevelConfig.get(CFG_MAX_TOTAL), CFG_MAX_TOTAL, scanner.getTotalCount());
+		failed |= checkFail(failSeverityLevelConfig.get(CFG_MAX_HIGH), CFG_MAX_HIGH, scanner.getHighCount());
+		failed |= checkFail(failSeverityLevelConfig.get(CFG_MAX_MEDIUM), CFG_MAX_MEDIUM, scanner.getMediumCount());
+		failed |= checkFail(failSeverityLevelConfig.get(CFG_MAX_LOW), CFG_MAX_LOW, scanner.getLowCount());
 
 		if (failed)
 			return result.failed();
