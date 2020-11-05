@@ -18,12 +18,15 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+//import com.atlassian.bamboo.crypto.instance.SecretEncryptionServiceImpl;
+
 public class Decrypt {
 	public static void main(String[] args) throws Exception {
 		decrypt(args[0]);
 	}
 
 	public static String decrypt(String arg) throws Exception {
+//		String decryptValue = new SecretEncryptionServiceImpl().decrypt(arg);
 		String decryptValue = decryptValue(arg);
 //		System.out.println(decryptValue);
 		return decryptValue;

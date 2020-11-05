@@ -31,6 +31,9 @@ public interface IScannerConstants {
 	String CFG_SCAN_FILE				= "ScanFile";				//$NON-NLS-1$
 	String CFG_EMAIL_NOTIFICATION		= "emailNotification";		//$NON-NLS-1$
 	String CFG_FAIL_BUILD				= "selectedFailBuild";		//$NON-NLS-1$
+	String CFG_FAIL_BUILD_CONF			= "failBuildConfigure";		//$NON-NLS-1$
+	String CFG_STATIC_SCAN_SPEED		= "staticScanSpeed";		//$NON-NLS-1$
+	String CFG_STATIC_SCAN_SPEED_CONF	= "staticScanSpeedConf";	//$NON-NLS-1$
 
 	Integer FAILED_RETRY_COUNT			= 5;						//$NON-NLS-1$
 	Integer MIN_RETRY_INTERVAL			= 30;						//$NON-NLS-1$
@@ -43,6 +46,12 @@ public interface IScannerConstants {
 	String OPEN_SOURCE_ONLY				= "openSourceOnly";			//$NON-NLS-1$
 	String FAIL_NON_COMPLIANCE			= "failBuildNonCompliance";	//$NON-NLS-1$
 	String FAIL_SEVERITY_LEVEL			= "failBuildSeverityLevel";	//$NON-NLS-1$
+
+	String SCAN_SPEED					= "scan_speed";				//$NON-NLS-1$
+	String SCAN_SPEED_SIMPLE			= "simple";					//$NON-NLS-1$
+	String SCAN_SPEED_BALANCED			= "balanced";				//$NON-NLS-1$
+	String SCAN_SPEED_DEEP				= "deep";					//$NON-NLS-1$
+	String SCAN_SPEED_THOROUGH			= "thorough";				//$NON-NLS-1$
 
 	String OPTIMIZATION_FAST			= "Fast";					//$NON-NLS-1$
 	String OPTIMIZATION_FASTER			= "Faster";					//$NON-NLS-1$

@@ -7,6 +7,7 @@ package com.hcl.appscan.bamboo.plugin.util;
 
 import com.atlassian.bamboo.credentials.CredentialsData;
 import com.atlassian.bamboo.task.TaskContext;
+import com.atlassian.bamboo.utils.i18n.I18nBean;
 import com.hcl.appscan.bamboo.plugin.impl.IScannerConstants;
 import com.hcl.appscan.sdk.scanners.dynamic.DASTConstants;
 import com.hcl.appscan.sdk.scanners.sast.SASTConstants;
@@ -40,11 +41,20 @@ public class Utility {
 		return testOptimizations;
 	}
 
-	public static Map<String, String> getFailBuildTypes() {
+	public static Map<String, String> getFailBuildTypes(I18nBean i18nBean) {
 		Map<String, String> failBuildTypes = new LinkedHashMap<String, String>();
-		failBuildTypes.put(IScannerConstants.FAIL_NON_COMPLIANCE, "Fail build for non-compliance with application policies");
-		failBuildTypes.put(IScannerConstants.FAIL_SEVERITY_LEVEL, "Fail build on Severity");
+		failBuildTypes.put(IScannerConstants.FAIL_NON_COMPLIANCE, i18nBean.getText("fail.build.non.compliance"));
+		failBuildTypes.put(IScannerConstants.FAIL_SEVERITY_LEVEL, i18nBean.getText("fail.build.on.severity"));
 		return failBuildTypes;
+	}
+
+	public static Map<String, String> getStaticScanSpeed(I18nBean i18nBean) {
+		Map<String, String> staticScanSpeedMap = new LinkedHashMap<String, String>();
+		staticScanSpeedMap.put(IScannerConstants.SCAN_SPEED_SIMPLE, i18nBean.getText("static.scan.speed.simple"));
+		staticScanSpeedMap.put(IScannerConstants.SCAN_SPEED_BALANCED, i18nBean.getText("static.scan.speed.balanced"));
+		staticScanSpeedMap.put(IScannerConstants.SCAN_SPEED_DEEP, i18nBean.getText("static.scan.speed.deep"));
+		staticScanSpeedMap.put(IScannerConstants.SCAN_SPEED_THOROUGH, i18nBean.getText("static.scan.speed.thorough"));
+		return staticScanSpeedMap;
 	}
 
 	public static String resolvePath(String path, TaskContext taskContext) {

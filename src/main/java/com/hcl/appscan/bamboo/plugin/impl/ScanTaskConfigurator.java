@@ -39,6 +39,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 	private static final String SCAN_TYPE_LIST = "scanTypeList";					//$NON-NLS-1$
 	private static final String TEST_OPTIMIZATION_LIST = "testOptimizationList";	//$NON-NLS-1$
 	private static final String FAIL_BUILD_LIST = "failBuildList";					//$NON-NLS-1$
+	private static final String STATIC_SCAN_SPEED_LIST = "staticScanSpeedList";		//$NON-NLS-1$
 
 	private UIConfigSupport uiConfigSupport;
 	private CredentialsManager credentialsManager;
@@ -67,7 +68,8 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(TEST_TYPE_LIST, Utility.getTestTypes());
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
-		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes());
+		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes(i18nBean));
+		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeed(i18nBean));
 	}
 	
 	@Override
@@ -76,7 +78,8 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(TEST_TYPE_LIST, Utility.getTestTypes());
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
-		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes());
+		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes(i18nBean));
+		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeed(i18nBean));
 		Map<String, String> config = taskDefinition.getConfiguration();
 		context.put(CFG_SELECTED_CRED, config.get(CFG_SELECTED_CRED));
 		context.put(CFG_SEL_TEST_TYPE, config.get(CFG_SEL_TEST_TYPE));
@@ -95,9 +98,11 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(CFG_THIRD_CREDENTIAL, config.get(CFG_THIRD_CREDENTIAL));
 		context.put(CFG_SEL_PRESENCE, config.get(CFG_SEL_PRESENCE));
 		context.put(CFG_SCAN_FILE, config.get(CFG_SCAN_FILE));
+		context.put(CFG_FAIL_BUILD_CONF, config.get(CFG_FAIL_BUILD_CONF));
 		context.put(CFG_FAIL_BUILD, config.get(CFG_FAIL_BUILD));
 		context.put(OPEN_SOURCE_ONLY, config.get(OPEN_SOURCE_ONLY));
-
+		context.put(CFG_STATIC_SCAN_SPEED_CONF, config.get(CFG_STATIC_SCAN_SPEED_CONF));
+		context.put(CFG_STATIC_SCAN_SPEED, config.get(CFG_STATIC_SCAN_SPEED));
 	}
 	
 	private void validateRequired(ActionParametersMap params, ErrorCollection errorCollection, String field) {
@@ -135,6 +140,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		config.put(CFG_EMAIL_NOTIFICATION, Boolean.toString(params.getBoolean(CFG_EMAIL_NOTIFICATION)));
 		config.put(CFG_SUSPEND, Boolean.toString(params.getBoolean(CFG_SUSPEND)));
 		config.put(CoreConstants.TARGET, params.getString(CoreConstants.TARGET));
+		config.put(CFG_FAIL_BUILD_CONF, params.getString(CFG_FAIL_BUILD_CONF));
 		config.put(CFG_FAIL_BUILD, params.getString(CFG_FAIL_BUILD));
 		if (FAIL_SEVERITY_LEVEL.equals(params.getString(CFG_FAIL_BUILD))) {
 			config.put(CFG_MAX_TOTAL, params.getString(CFG_MAX_TOTAL));
@@ -153,6 +159,10 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		}
 		if (SASTConstants.STATIC_ANALYZER.equals(params.getString(CFG_SEL_TEST_TYPE))) {
 			config.put(OPEN_SOURCE_ONLY, params.getString(OPEN_SOURCE_ONLY));
+			if (params.getBoolean(CFG_STATIC_SCAN_SPEED_CONF)) {
+				config.put(CFG_STATIC_SCAN_SPEED_CONF, params.getString(CFG_STATIC_SCAN_SPEED_CONF));
+				config.put(CFG_STATIC_SCAN_SPEED, params.getString(CFG_STATIC_SCAN_SPEED));
+			}
 		}
 		return config;
 	}

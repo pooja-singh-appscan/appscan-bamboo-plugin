@@ -7,6 +7,7 @@ package com.hcl.appscan.bamboo.plugin.impl;
 
 import com.atlassian.bamboo.build.artifact.ArtifactHandlingUtils;
 import com.atlassian.bamboo.build.artifact.ArtifactManager;
+import com.atlassian.bamboo.configuration.ConfigurationMap;
 import com.atlassian.bamboo.plan.artifact.ArtifactDefinitionContext;
 import com.atlassian.bamboo.process.ProcessService;
 import com.atlassian.bamboo.task.TaskContext;
@@ -104,8 +105,10 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 		}
 		if (count == 0) throw new TaskException(logger.getText("err.artifacts.unavailable"));
 
+		ConfigurationMap configurationMap = taskContext.getConfigurationMap();
 		addEntryMap(properties, CoreConstants.TARGET, workingDir.getAbsolutePath());
-		if (taskContext.getConfigurationMap().getAsBoolean(OPEN_SOURCE_ONLY))
+		addEntryMap(properties, SCAN_SPEED, configurationMap.get(CFG_STATIC_SCAN_SPEED));
+		if (configurationMap.getAsBoolean(OPEN_SOURCE_ONLY))
 			addEntryMap(properties, CoreConstants.OPEN_SOURCE_ONLY, "");
 
 		return properties;

@@ -23,8 +23,8 @@ LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
     <packaging>atlassian-plugin</packaging>
 
     <properties>
-        <bamboo.version>5.13.2</bamboo.version>
-        <bamboo.data.version>5.13.2</bamboo.data.version>
+        <bamboo.version>5.15.7</bamboo.version>
+        <bamboo.data.version>5.15.7</bamboo.data.version>
         <amps.version>6.2.6</amps.version>
         <plugin.testrunner.version>1.2.3</plugin.testrunner.version>
         <atlassian.spring.scanner.version>1.2.13</atlassian.spring.scanner.version>
