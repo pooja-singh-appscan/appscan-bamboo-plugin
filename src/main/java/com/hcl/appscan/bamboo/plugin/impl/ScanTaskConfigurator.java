@@ -98,7 +98,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(CFG_THIRD_CREDENTIAL, config.get(CFG_THIRD_CREDENTIAL));
 		context.put(CFG_SEL_PRESENCE, config.get(CFG_SEL_PRESENCE));
 		context.put(CFG_SCAN_FILE, config.get(CFG_SCAN_FILE));
-		context.put(CFG_FAIL_BUILD_CONF, config.get(CFG_FAIL_BUILD_CONF));
+		context.put(CFG_FAIL_BUILD_OPTION, config.get(CFG_FAIL_BUILD_OPTION));
 		context.put(CFG_FAIL_BUILD, config.get(CFG_FAIL_BUILD));
 		context.put(OPEN_SOURCE_ONLY, config.get(OPEN_SOURCE_ONLY));
 		context.put(CFG_STATIC_SCAN_SPEED_CONF, config.get(CFG_STATIC_SCAN_SPEED_CONF));
@@ -140,13 +140,15 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		config.put(CFG_EMAIL_NOTIFICATION, Boolean.toString(params.getBoolean(CFG_EMAIL_NOTIFICATION)));
 		config.put(CFG_SUSPEND, Boolean.toString(params.getBoolean(CFG_SUSPEND)));
 		config.put(CoreConstants.TARGET, params.getString(CoreConstants.TARGET));
-		config.put(CFG_FAIL_BUILD_CONF, params.getString(CFG_FAIL_BUILD_CONF));
-		config.put(CFG_FAIL_BUILD, params.getString(CFG_FAIL_BUILD));
-		if (FAIL_SEVERITY_LEVEL.equals(params.getString(CFG_FAIL_BUILD))) {
-			config.put(CFG_MAX_TOTAL, params.getString(CFG_MAX_TOTAL));
-			config.put(CFG_MAX_HIGH, params.getString(CFG_MAX_HIGH));
-			config.put(CFG_MAX_MEDIUM, params.getString(CFG_MAX_MEDIUM));
-			config.put(CFG_MAX_LOW, params.getString(CFG_MAX_LOW));
+		config.put(CFG_FAIL_BUILD_OPTION, params.getString(CFG_FAIL_BUILD_OPTION));
+		if (params.getBoolean(CFG_FAIL_BUILD_OPTION)) {
+			config.put(CFG_FAIL_BUILD, params.getString(CFG_FAIL_BUILD));
+			if (FAIL_SEVERITY_LEVEL.equals(params.getString(CFG_FAIL_BUILD))) {
+				config.put(CFG_MAX_TOTAL, params.getString(CFG_MAX_TOTAL));
+				config.put(CFG_MAX_HIGH, params.getString(CFG_MAX_HIGH));
+				config.put(CFG_MAX_MEDIUM, params.getString(CFG_MAX_MEDIUM));
+				config.put(CFG_MAX_LOW, params.getString(CFG_MAX_LOW));
+			}
 		}
 		if (DASTConstants.DYNAMIC_ANALYZER.equals(params.getString(CFG_SEL_TEST_TYPE))) {
 			config.put(CFG_SEL_SCAN_TYPE, params.getString(CFG_SEL_SCAN_TYPE));
@@ -159,8 +161,8 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		}
 		if (SASTConstants.STATIC_ANALYZER.equals(params.getString(CFG_SEL_TEST_TYPE))) {
 			config.put(OPEN_SOURCE_ONLY, params.getString(OPEN_SOURCE_ONLY));
+			config.put(CFG_STATIC_SCAN_SPEED_CONF, params.getString(CFG_STATIC_SCAN_SPEED_CONF));
 			if (params.getBoolean(CFG_STATIC_SCAN_SPEED_CONF)) {
-				config.put(CFG_STATIC_SCAN_SPEED_CONF, params.getString(CFG_STATIC_SCAN_SPEED_CONF));
 				config.put(CFG_STATIC_SCAN_SPEED, params.getString(CFG_STATIC_SCAN_SPEED));
 			}
 		}

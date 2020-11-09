@@ -72,11 +72,6 @@ public class Utility {
 	public static String getPlainTextPassword(CredentialsData credential) {
 		if (credential == null) return null;
 		String password = credential.getConfiguration().get("password"); //$NON-NLS-1$
-		try {
-			password = Decrypt.decrypt(password);
-		} catch (Exception e) {
-			// Ignore any Exception Occurred
-		}
 		return password;
 	}
 }

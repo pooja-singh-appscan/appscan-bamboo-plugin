@@ -31,7 +31,7 @@ public interface IScannerConstants {
 	String CFG_SCAN_FILE				= "ScanFile";				//$NON-NLS-1$
 	String CFG_EMAIL_NOTIFICATION		= "emailNotification";		//$NON-NLS-1$
 	String CFG_FAIL_BUILD				= "selectedFailBuild";		//$NON-NLS-1$
-	String CFG_FAIL_BUILD_CONF			= "failBuildConfigure";		//$NON-NLS-1$
+	String CFG_FAIL_BUILD_OPTION		= "failBuildConfigure";		//$NON-NLS-1$
 	String CFG_STATIC_SCAN_SPEED		= "staticScanSpeed";		//$NON-NLS-1$
 	String CFG_STATIC_SCAN_SPEED_CONF	= "staticScanSpeedConf";	//$NON-NLS-1$
 
