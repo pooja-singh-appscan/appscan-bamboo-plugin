@@ -1,7 +1,7 @@
 [@ui.bambooSection titleKey="section.asoc"]
 	[@ww.select labelKey="label.cred" name="selectedCred" required="true" list="credList"/]
 	[@ww.textfield labelKey="label.appid" name="appId" required="true"/]
-	[@ww.select labelKey="label.test.type" name="selectedTestType" required="true" list="testTypeList"/]
+	[@ww.select labelKey="label.test.type" name="selectedTestType" required="true" list="testTypeList" value="StaticAnalyzer" toggle="true"/]
 	[@ui.bambooSection dependsOn="selectedTestType" showOn="DynamicAnalyzer"]
 		[@ww.textfield labelKey="label.target" name="target" required="true"/]
 		[@ww.select labelKey="dyn.label.scan.type" name="ScanType" list="scanTypeList"/]
