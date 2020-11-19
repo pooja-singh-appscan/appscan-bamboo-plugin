@@ -1,6 +1,7 @@
 [@ui.bambooSection titleKey="section.asoc"]
 	[@ww.label labelKey="label.cred" name="selectedCred"/]
 	[@ww.label labelKey="label.appid" name="appId"/]
+	[@ww.label labelKey="label.scanName" name="scanName"/]
 	[@ww.label labelKey="label.test.type" name="selectedTestType"/]
 	[@ui.bambooSection dependsOn="selectedTestType" showOn="DynamicAnalyzer"]
 		[@ww.label labelKey="label.target" name="target"/]

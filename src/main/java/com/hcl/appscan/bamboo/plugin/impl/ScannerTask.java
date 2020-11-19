@@ -82,7 +82,8 @@ public class ScannerTask implements TaskType, IScannerConstants {
 	private TaskResultBuilder calculateResult(TaskContext taskContext, TaskResultBuilder result) {
 		Map<String, String> failSeverityLevelConfig = scanner.getFailSeverityLevelConfig(taskContext);
 
-		boolean failed = checkFail(failSeverityLevelConfig.get(CFG_MAX_TOTAL), CFG_MAX_TOTAL, scanner.getTotalCount());
+		boolean failed = checkFail(failSeverityLevelConfig.get(FAIL_NON_COMPLIANCE), FAIL_NON_COMPLIANCE, scanner.getTotalCount());
+		failed |= checkFail(failSeverityLevelConfig.get(CFG_MAX_TOTAL), CFG_MAX_TOTAL, scanner.getTotalCount());
 		failed |= checkFail(failSeverityLevelConfig.get(CFG_MAX_HIGH), CFG_MAX_HIGH, scanner.getHighCount());
 		failed |= checkFail(failSeverityLevelConfig.get(CFG_MAX_MEDIUM), CFG_MAX_MEDIUM, scanner.getMediumCount());
 		failed |= checkFail(failSeverityLevelConfig.get(CFG_MAX_LOW), CFG_MAX_LOW, scanner.getLowCount());
