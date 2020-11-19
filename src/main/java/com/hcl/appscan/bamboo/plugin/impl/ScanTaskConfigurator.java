@@ -104,7 +104,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(CFG_FAIL_BUILD, config.get(CFG_FAIL_BUILD));
 		context.put(OPEN_SOURCE_ONLY, config.get(OPEN_SOURCE_ONLY));
 		context.put(CFG_STATIC_SCAN_SPEED_CONF, config.get(CFG_STATIC_SCAN_SPEED_CONF));
-		context.put(CFG_STATIC_SCAN_SPEED, config.get(CFG_STATIC_SCAN_SPEED));		
+		context.put(CFG_STATIC_SCAN_SPEED, config.get(CFG_STATIC_SCAN_SPEED));
 	}
 	
 	private void validateRequired(ActionParametersMap params, ErrorCollection errorCollection, String field) {
