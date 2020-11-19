@@ -70,6 +70,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
 		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes(i18nBean));
 		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeed(i18nBean));
+		context.put(CFG_SEL_TEST_TYPE, SASTConstants.STATIC_ANALYZER);
 	}
 	
 	@Override
