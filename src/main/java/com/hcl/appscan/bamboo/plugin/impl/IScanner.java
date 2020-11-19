@@ -12,7 +12,7 @@ import com.atlassian.bamboo.task.TaskException;
 import java.io.File;
 import java.util.Map;
 
-public interface IScanner extends IScannerConstants, IJSONConstants, IArtifactPublisher {
+public interface IScanner extends IScannerConstants, IArtifactPublisher {
 	public String SA_DIR = ".sa";
 	public String SDK_VERSION_KEY = "atlassian.sdk.version";
 

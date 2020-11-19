@@ -10,8 +10,8 @@ LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
         <description>${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
-        <param name="plugin-icon">images/pluginIcon.png</param>
-        <param name="plugin-logo">images/pluginLogo.png</param>
+        <param name="plugin-icon">images/appscan_28x28.png</param>
+        <param name="plugin-logo">images/appscan_80x80.png</param>
     </plugin-info>
 
     <!-- add our i18n resource -->

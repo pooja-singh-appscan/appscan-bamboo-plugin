@@ -70,7 +70,6 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
 		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes(i18nBean));
 		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeed(i18nBean));
-		context.put(CFG_SEL_TEST_TYPE, SASTConstants.STATIC_ANALYZER);
 	}
 	
 	@Override
@@ -85,6 +84,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(CFG_SELECTED_CRED, config.get(CFG_SELECTED_CRED));
 		context.put(CFG_SEL_TEST_TYPE, config.get(CFG_SEL_TEST_TYPE));
 		context.put(CFG_APP_ID, config.get(CFG_APP_ID));
+		context.put(CFG_SCAN_NAME, config.get(CFG_SCAN_NAME));
 		context.put(CFG_EMAIL_NOTIFICATION, Boolean.valueOf(config.get(CFG_EMAIL_NOTIFICATION)));
 		context.put(CFG_SUSPEND, Boolean.valueOf(config.get(CFG_SUSPEND)));
 		context.put(CFG_MAX_TOTAL, config.get(CFG_MAX_TOTAL));
@@ -138,6 +138,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		config.put(CFG_SELECTED_CRED, params.getString(CFG_SELECTED_CRED));
 		config.put(CFG_SEL_TEST_TYPE, params.getString(CFG_SEL_TEST_TYPE));
 		config.put(CFG_APP_ID, params.getString(CFG_APP_ID));
+		config.put(CFG_SCAN_NAME, params.getString(CFG_SCAN_NAME));
 		config.put(CFG_EMAIL_NOTIFICATION, Boolean.toString(params.getBoolean(CFG_EMAIL_NOTIFICATION)));
 		config.put(CFG_SUSPEND, Boolean.toString(params.getBoolean(CFG_SUSPEND)));
 		config.put(CoreConstants.TARGET, params.getString(CoreConstants.TARGET));

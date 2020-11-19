@@ -72,7 +72,13 @@ public abstract class AbstractASoCScanner implements IScanner {
 		Map<String, String> properties = new HashMap<String, String>();
 		addEntryMap(properties, CoreConstants.SCANNER_TYPE, getScannerType());
 		addEntryMap(properties, CoreConstants.APP_ID, taskContext.getConfigurationMap().get(CFG_APP_ID));
-		addEntryMap(properties, CoreConstants.SCAN_NAME, taskContext.getBuildContext().getPlanName() + "_" + SystemUtil.getTimeStamp()); //$NON-NLS-1$
+		
+		String scanName = taskContext.getConfigurationMap().get(CFG_SCAN_NAME);
+		if (scanName == null || scanName.trim() == "") {
+			scanName = taskContext.getBuildContext().getPlanName() + "_" + SystemUtil.getTimeStamp();
+		}
+		addEntryMap(properties, CoreConstants.SCAN_NAME, scanName); //$NON-NLS-1$
+		
 		addEntryMap(properties, CoreConstants.EMAIL_NOTIFICATION, taskContext.getConfigurationMap().getAsBoolean(CFG_EMAIL_NOTIFICATION));
 		addEntryMap(properties, SASTConstants.APPSCAN_IRGEN_CLIENT, "Bamboo");
 		addEntryMap(properties, SASTConstants.APPSCAN_CLIENT_VERSION, System.getProperty(SDK_VERSION_KEY, ""));
@@ -100,16 +106,15 @@ public abstract class AbstractASoCScanner implements IScanner {
 	public Map<String, String> getFailSeverityLevelConfig(TaskContext taskContext) {
 		ConfigurationMap configurationMap = taskContext.getConfigurationMap();
 		Map<String, String> severityLevel = new HashMap<String, String>();
-		String total = configurationMap.get(CFG_MAX_TOTAL);
+		
 		if (FAIL_NON_COMPLIANCE.equals(configurationMap.get(CFG_FAIL_BUILD))) {
-			total = "0";
+			severityLevel.put(FAIL_NON_COMPLIANCE, "0");
 		} else {
+			severityLevel.put(CFG_MAX_TOTAL, configurationMap.get(CFG_MAX_TOTAL));
 			severityLevel.put(CFG_MAX_HIGH, configurationMap.get(CFG_MAX_HIGH));
 			severityLevel.put(CFG_MAX_MEDIUM, configurationMap.get(CFG_MAX_MEDIUM));
 			severityLevel.put(CFG_MAX_LOW, configurationMap.get(CFG_MAX_LOW));
 		}
-		severityLevel.put(CFG_MAX_TOTAL, total);
-
 		return severityLevel;
 	}
 
