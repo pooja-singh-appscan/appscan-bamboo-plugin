@@ -36,13 +36,6 @@ LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
     <dependencies>
         <dependency>
             <groupId>com.atlassian.bamboo</groupId>
-            <artifactId>atlassian-bamboo-api</artifactId>
-            <version>${bamboo.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.atlassian.bamboo</groupId>
             <artifactId>atlassian-bamboo-web</artifactId>
             <version>${bamboo.version}</version>
             <scope>provided</scope>
