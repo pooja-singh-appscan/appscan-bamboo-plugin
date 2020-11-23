@@ -48,7 +48,7 @@ public class Utility {
 		return failBuildTypes;
 	}
 
-	public static Map<String, String> getStaticScanSpeed(I18nBean i18nBean) {
+	public static Map<String, String> getStaticScanSpeedList(I18nBean i18nBean) {
 		Map<String, String> staticScanSpeedMap = new LinkedHashMap<String, String>();
 		staticScanSpeedMap.put(IScannerConstants.SCAN_SPEED_SIMPLE, i18nBean.getText("static.scan.speed.simple"));
 		staticScanSpeedMap.put(IScannerConstants.SCAN_SPEED_BALANCED, i18nBean.getText("static.scan.speed.balanced"));

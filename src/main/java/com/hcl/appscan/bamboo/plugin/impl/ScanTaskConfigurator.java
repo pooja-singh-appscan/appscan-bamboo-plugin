@@ -28,10 +28,8 @@ import com.atlassian.bamboo.utils.i18n.I18nBean;
 import com.atlassian.bamboo.utils.i18n.I18nBeanFactory;
 import com.atlassian.bamboo.v2.build.agent.capability.Requirement;
 import com.atlassian.bamboo.ww2.actions.build.admin.create.UIConfigSupport;
-import com.atlassian.plugin.spring.scanner.annotation.component.Scanned;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 
-@Scanned
 public class ScanTaskConfigurator extends AbstractTaskConfigurator implements TaskRequirementSupport, IScannerConstants {
 	
 	private static final String CRED_LIST = "credList";								//$NON-NLS-1$
@@ -69,8 +67,9 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
 		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes(i18nBean));
-		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeed(i18nBean));
-		context.put(CFG_SEL_TEST_TYPE, SASTConstants.STATIC_ANALYZER);
+		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeedList(i18nBean));
+		context.put(CFG_SEL_TEST_TYPE, SASTConstants.STATIC_ANALYZER); // Set Default Test Type to Static Analyzer
+		context.put(CFG_STATIC_SCAN_SPEED, IScannerConstants.SCAN_SPEED_DEEP); // Set Default Scan Speed for Static Scan
 	}
 	
 	@Override
@@ -80,7 +79,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
 		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes(i18nBean));
-		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeed(i18nBean));
+		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeedList(i18nBean));
 		Map<String, String> config = taskDefinition.getConfiguration();
 		context.put(CFG_SELECTED_CRED, config.get(CFG_SELECTED_CRED));
 		context.put(CFG_SEL_TEST_TYPE, config.get(CFG_SEL_TEST_TYPE));
@@ -104,7 +103,9 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(CFG_FAIL_BUILD, config.get(CFG_FAIL_BUILD));
 		context.put(OPEN_SOURCE_ONLY, config.get(OPEN_SOURCE_ONLY));
 		context.put(CFG_STATIC_SCAN_SPEED_CONF, config.get(CFG_STATIC_SCAN_SPEED_CONF));
-		context.put(CFG_STATIC_SCAN_SPEED, config.get(CFG_STATIC_SCAN_SPEED));
+		String staticScanSpeed = config.get(CFG_STATIC_SCAN_SPEED);
+		staticScanSpeed = (staticScanSpeed == null || staticScanSpeed.isEmpty()) ? SCAN_SPEED_DEEP : staticScanSpeed; // Set Default Speed
+		context.put(CFG_STATIC_SCAN_SPEED, staticScanSpeed);
 	}
 	
 	private void validateRequired(ActionParametersMap params, ErrorCollection errorCollection, String field) {

@@ -17,7 +17,6 @@ import com.atlassian.bamboo.task.TaskResultBuilder;
 import com.atlassian.bamboo.task.TaskType;
 import com.atlassian.bamboo.utils.i18n.I18nBeanFactory;
 import com.atlassian.bamboo.v2.build.agent.capability.CapabilityContext;
-import com.atlassian.plugin.spring.scanner.annotation.component.Scanned;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.hcl.appscan.bamboo.plugin.util.ExecutorUtil;
 import com.hcl.appscan.sdk.scanners.dynamic.DASTConstants;
@@ -27,7 +26,6 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-@Scanned
 public class ScannerTask implements TaskType, IScannerConstants {
 	private static final String SA_DIR = ".sa"; //$NON-NLS-1$
 
