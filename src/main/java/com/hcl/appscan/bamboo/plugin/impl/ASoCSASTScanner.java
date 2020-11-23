@@ -56,7 +56,7 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 	}
 
 	@Override
-	public void scheduleScan(TaskContext taskContext) throws TaskException {
+	public void scheduleScan(TaskContext taskContext) throws InvalidTargetException, ScannerException, ArtifactsUnavailableException {
 		logger.info("scan.schedule.static");
 		IProgress progress = new ScanProgress(logger);
 		authenticationProvider = new BambooAuthenticationProvider(credential);
@@ -64,31 +64,23 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 
 		Map<String, String> scanProperties = getScanProperties(taskContext);
 		SASTScan scan = (SASTScan) scanFactory.create(scanProperties, progress, authenticationProvider);
-		try {
-			setInstallDir();
-			scan.run();
-			jobId = scan.getScanId();
+		setInstallDir();
+		scan.run();
+		jobId = scan.getScanId();
 
-			// Publish generated IRX File to current Build
-			publishArtifact(taskContext, logger.getText("irx.file"), workingDir, scan.getIrx().getName());
-			logger.info("scan.schedule.success", jobId);
-			String homepageUrl = authenticationProvider.getServer() + "/serviceui/main/myapps/portfolio";
-			logger.info("asoc.homepage.url", homepageUrl);
+		// Publish generated IRX File to current Build
+		publishArtifact(taskContext, logger.getText("irx.file"), workingDir, scan.getIrx().getName());
+		logger.info("scan.schedule.success", jobId);
+		String homepageUrl = authenticationProvider.getServer() + "/serviceui/main/myapps/portfolio";
+		logger.info("asoc.homepage.url", homepageUrl);
 
-			provider = new NonCompliantIssuesResultProvider(scan.getScanId(), scan.getType(), scan.getServiceProvider(), progress);
-			provider.setReportFormat(scan.getReportFormat());
-			resultsRetriever = new ResultsRetriever(provider);
-		} catch (ScannerException e) {
-			logger.error("err.scan.schedule", e.getLocalizedMessage());
-			throw new TaskException(e.getLocalizedMessage(), e.getCause());
-		} catch (InvalidTargetException e) {
-			logger.error("err.scan.schedule", e.getLocalizedMessage());
-			throw new TaskException(e.getLocalizedMessage(), e.getCause());
-		}
+		provider = new NonCompliantIssuesResultProvider(scan.getScanId(), scan.getType(), scan.getServiceProvider(), progress);
+		provider.setReportFormat(scan.getReportFormat());
+		resultsRetriever = new ResultsRetriever(provider);
 	}
 
 	@Override
-	protected Map<String, String> getScanProperties(TaskContext taskContext) throws TaskException {
+	protected Map<String, String> getScanProperties(TaskContext taskContext) throws ArtifactsUnavailableException {
 		Map<String, String> properties = super.getScanProperties(taskContext);
 		int count = 0;
 		Collection<ArtifactDefinitionContext> artifacts = taskContext.getBuildContext().getArtifactContext().getDefinitionContexts();
@@ -103,7 +95,7 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 			}
 		} catch (IOException e) {
 		}
-		if (count == 0) throw new TaskException(logger.getText("err.artifacts.unavailable"));
+		if (count == 0) throw new ArtifactsUnavailableException(logger.getText("err.artifacts.unavailable"));
 
 		ConfigurationMap configurationMap = taskContext.getConfigurationMap();
 		addEntryMap(properties, CoreConstants.TARGET, workingDir.getAbsolutePath());
@@ -115,7 +107,7 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 	}
 
 	@Override
-	public File initWorkingDir(TaskContext taskContext) throws TaskException {
+	public File initWorkingDir(TaskContext taskContext) throws TaskException, ArtifactsUnavailableException {
 		File workingDir = taskContext.getWorkingDirectory();
 		File dirToScan = new File(workingDir, SA_DIR);
 
@@ -127,7 +119,7 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 		Collection<ArtifactDefinitionContext> artifacts = taskContext.getBuildContext().getArtifactContext().getDefinitionContexts();
 
 		if (artifacts.isEmpty())
-			throw new TaskException(logger.getText("err.no.artifacts")); //$NON-NLS-1$
+			throw new ArtifactsUnavailableException(logger.getText("err.no.artifacts")); //$NON-NLS-1$
 
 		try {
 			for (ArtifactDefinitionContext artifact : artifacts) {

@@ -41,7 +41,7 @@ public class ASoCDASTScanner extends AbstractASoCScanner {
 	}
 
 	@Override
-	public void scheduleScan(TaskContext taskContext) throws TaskException {
+	public void scheduleScan(TaskContext taskContext) throws InvalidTargetException, ScannerException, ArtifactsUnavailableException {
 		logger.info("scan.schedule.dynamic");
 		IProgress progress = new ScanProgress(logger);
 		authenticationProvider = new BambooAuthenticationProvider(credential);
@@ -49,27 +49,19 @@ public class ASoCDASTScanner extends AbstractASoCScanner {
 
 		Map<String, String> scanProperties = getScanProperties(taskContext);
 		IScan scan = scanFactory.create(scanProperties, progress, authenticationProvider);
-		try {
-			scan.run();
-			jobId = scan.getScanId();
-			logger.info("scan.schedule.success", jobId);
-			String homepageUrl = authenticationProvider.getServer() + "/serviceui/main/myapps/portfolio";
-			logger.info("asoc.homepage.url", homepageUrl);
+		scan.run();
+		jobId = scan.getScanId();
+		logger.info("scan.schedule.success", jobId);
+		String homepageUrl = authenticationProvider.getServer() + "/serviceui/main/myapps/portfolio";
+		logger.info("asoc.homepage.url", homepageUrl);
 
-			provider = new NonCompliantIssuesResultProvider(scan.getScanId(), scan.getType(), scan.getServiceProvider(), progress);
-			provider.setReportFormat(scan.getReportFormat());
-			resultsRetriever = new ResultsRetriever(provider);
-		} catch (ScannerException e) {
-			logger.error("err.scan.schedule", e.getLocalizedMessage());
-			throw new TaskException(e.getLocalizedMessage(), e.getCause());
-		} catch (InvalidTargetException e) {
-			logger.error("err.scan.schedule", e.getLocalizedMessage());
-			throw new TaskException(e.getLocalizedMessage(), e.getCause());
-		}
+		provider = new NonCompliantIssuesResultProvider(scan.getScanId(), scan.getType(), scan.getServiceProvider(), progress);
+		provider.setReportFormat(scan.getReportFormat());
+		resultsRetriever = new ResultsRetriever(provider);
 	}
 
 	@Override
-	protected Map<String, String> getScanProperties(TaskContext taskContext) throws TaskException {
+	protected Map<String, String> getScanProperties(TaskContext taskContext) throws ArtifactsUnavailableException {
 		Map<String, String> properties = super.getScanProperties(taskContext);
 		ConfigurationMap configurationMap = taskContext.getConfigurationMap();
 		addEntryMap(properties, CoreConstants.TARGET, configurationMap.get(CoreConstants.TARGET));
@@ -86,7 +78,7 @@ public class ASoCDASTScanner extends AbstractASoCScanner {
 	}
 
 	@Override
-	public File initWorkingDir(TaskContext taskContext) throws TaskException {
+	public File initWorkingDir(TaskContext taskContext) throws TaskException, ArtifactsUnavailableException {
 		File workingDir = taskContext.getWorkingDirectory();
 		File dirToScan = new File(workingDir, SA_DIR);
 

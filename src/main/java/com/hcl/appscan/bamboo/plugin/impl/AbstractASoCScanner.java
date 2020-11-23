@@ -68,7 +68,7 @@ public abstract class AbstractASoCScanner implements IScanner {
 		this.credential = credentials;
 	}
 
-	protected Map<String, String> getScanProperties(TaskContext taskContext) throws TaskException {
+	protected Map<String, String> getScanProperties(TaskContext taskContext) throws ArtifactsUnavailableException {
 		Map<String, String> properties = new HashMap<String, String>();
 		addEntryMap(properties, CoreConstants.SCANNER_TYPE, getScannerType());
 		addEntryMap(properties, CoreConstants.APP_ID, taskContext.getConfigurationMap().get(CFG_APP_ID));

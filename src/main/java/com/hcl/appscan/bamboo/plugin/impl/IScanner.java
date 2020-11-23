@@ -8,6 +8,8 @@ package com.hcl.appscan.bamboo.plugin.impl;
 import com.atlassian.bamboo.credentials.CredentialsData;
 import com.atlassian.bamboo.task.TaskContext;
 import com.atlassian.bamboo.task.TaskException;
+import com.hcl.appscan.sdk.error.InvalidTargetException;
+import com.hcl.appscan.sdk.error.ScannerException;
 
 import java.io.File;
 import java.util.Map;
@@ -22,9 +24,9 @@ public interface IScanner extends IScannerConstants, IArtifactPublisher {
 
 	public String getScannerType();
 
-	public void scheduleScan(TaskContext taskContext) throws TaskException;
+	public void scheduleScan(TaskContext taskContext) throws InvalidTargetException, ScannerException, ArtifactsUnavailableException;
 
-	public File initWorkingDir(TaskContext taskContext) throws TaskException;
+	public File initWorkingDir(TaskContext taskContext) throws TaskException, ArtifactsUnavailableException;
 
 	public void waitAndDownloadResult(TaskContext taskContext) throws TaskException, InterruptedException;
 

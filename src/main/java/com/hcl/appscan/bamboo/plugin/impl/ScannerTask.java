@@ -19,6 +19,8 @@ import com.atlassian.bamboo.utils.i18n.I18nBeanFactory;
 import com.atlassian.bamboo.v2.build.agent.capability.CapabilityContext;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.hcl.appscan.bamboo.plugin.util.ExecutorUtil;
+import com.hcl.appscan.sdk.error.InvalidTargetException;
+import com.hcl.appscan.sdk.error.ScannerException;
 import com.hcl.appscan.sdk.scanners.dynamic.DASTConstants;
 import com.hcl.appscan.sdk.scanners.sast.SASTConstants;
 
@@ -98,10 +100,21 @@ public class ScannerTask implements TaskType, IScannerConstants {
 		initScanner(taskContext);
 
 		setUsernameAndPassword(taskContext);
-		scanner.setWorkingDir(scanner.initWorkingDir(taskContext));
-		scanner.scheduleScan(taskContext);
-
 		TaskResultBuilder result = TaskResultBuilder.newBuilder(taskContext);
+		try {
+			scanner.setWorkingDir(scanner.initWorkingDir(taskContext));
+			scanner.scheduleScan(taskContext);
+		} catch (InvalidTargetException e) {
+			logger.error("err.scan.schedule", e.getLocalizedMessage());
+			return result.failedWithError().build();
+		} catch (ScannerException e) {
+			logger.error("err.scan.schedule", e.getLocalizedMessage());
+			return result.failedWithError().build();
+		} catch (ArtifactsUnavailableException e) {
+			logger.error(e.getLocalizedMessage());
+			return result.failedWithError().build();
+		}
+
 		try {
 			if (taskContext.getConfigurationMap().getAsBoolean(CFG_SUSPEND)) {
 				scanner.waitAndDownloadResult(taskContext);
