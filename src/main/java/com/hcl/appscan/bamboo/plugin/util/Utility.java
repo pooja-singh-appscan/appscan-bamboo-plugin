@@ -32,12 +32,12 @@ public class Utility {
 		return scanOptions;
 	}
 
-	public static Map<String, String> getTestOptimizations() {
+	public static Map<String, String> getTestOptimizations(I18nBean i18nBean) {
 		Map<String, String> testOptimizations = new LinkedHashMap<String, String>();
-		testOptimizations.put(IScannerConstants.OPTIMIZATION_FAST, IScannerConstants.OPTIMIZATION_FAST);
-		testOptimizations.put(IScannerConstants.OPTIMIZATION_FASTER, IScannerConstants.OPTIMIZATION_FASTER);
-		testOptimizations.put(IScannerConstants.OPTIMIZATION_FASTEST, IScannerConstants.OPTIMIZATION_FASTEST);
-		testOptimizations.put(IScannerConstants.NO_OPTIMIZATION, IScannerConstants.NO_OPTIMIZATION);
+		testOptimizations.put(IScannerConstants.OPTIMIZATION_FAST, i18nBean.getText("dyn.testOptimization.Fast"));
+		testOptimizations.put(IScannerConstants.OPTIMIZATION_FASTER, i18nBean.getText("dyn.testOptimization.Faster"));
+		testOptimizations.put(IScannerConstants.OPTIMIZATION_FASTEST, i18nBean.getText("dyn.testOptimization.Fastest"));
+		testOptimizations.put(IScannerConstants.NO_OPTIMIZATION, i18nBean.getText("dyn.testOptimization.NoOptimization"));
 		return testOptimizations;
 	}
 

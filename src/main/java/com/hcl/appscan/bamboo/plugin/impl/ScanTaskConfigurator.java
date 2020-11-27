@@ -65,11 +65,12 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(CRED_LIST, getCredentials());
 		context.put(TEST_TYPE_LIST, Utility.getTestTypes());
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
-		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
+		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations(i18nBean));
 		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes(i18nBean));
 		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeedList(i18nBean));
 		context.put(CFG_SEL_TEST_TYPE, SASTConstants.STATIC_ANALYZER); // Set Default Test Type to Static Analyzer
-		context.put(CFG_STATIC_SCAN_SPEED, IScannerConstants.SCAN_SPEED_DEEP); // Set Default Scan Speed for Static Scan
+		context.put(CFG_STATIC_SCAN_SPEED, SCAN_SPEED_DEEP); // Set Default Scan Speed for Static Scan
+		context.put(CFG_SEL_TEST_OPTIMIZE, OPTIMIZATION_FAST); // Set Default Test Optimization for Dynamic Scan
 	}
 	
 	@Override
@@ -77,7 +78,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(CRED_LIST, getCredentials());
 		context.put(TEST_TYPE_LIST, Utility.getTestTypes());
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
-		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations());
+		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations(i18nBean));
 		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes(i18nBean));
 		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeedList(i18nBean));
 		Map<String, String> config = taskDefinition.getConfiguration();
@@ -93,7 +94,8 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(CFG_MAX_LOW, config.get(CFG_MAX_LOW));
 		context.put(CoreConstants.TARGET, config.get(CoreConstants.TARGET));
 		context.put(CFG_SEL_SCAN_TYPE, config.get(CFG_SEL_SCAN_TYPE));
-		context.put(CFG_SEL_TEST_OPTIMIZE, config.get(CFG_SEL_TEST_OPTIMIZE));
+		String testOptimization = config.get(CFG_SEL_TEST_OPTIMIZE) == null ? OPTIMIZATION_FAST : config.get(CFG_SEL_TEST_OPTIMIZE); // Set Default Test Optimization
+		context.put(CFG_SEL_TEST_OPTIMIZE, testOptimization);
 		context.put(CFG_LOGIN_USER, config.get(CFG_LOGIN_USER));
 		context.put(CFG_LOGIN_PASSWORD, config.get(CFG_LOGIN_PASSWORD));
 		context.put(CFG_THIRD_CREDENTIAL, config.get(CFG_THIRD_CREDENTIAL));
@@ -104,7 +106,7 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 		context.put(OPEN_SOURCE_ONLY, config.get(OPEN_SOURCE_ONLY));
 		context.put(CFG_STATIC_SCAN_SPEED_CONF, config.get(CFG_STATIC_SCAN_SPEED_CONF));
 		String staticScanSpeed = config.get(CFG_STATIC_SCAN_SPEED);
-		staticScanSpeed = (staticScanSpeed == null || staticScanSpeed.isEmpty()) ? SCAN_SPEED_DEEP : staticScanSpeed; // Set Default Speed
+		staticScanSpeed = (staticScanSpeed == null || staticScanSpeed.isEmpty()) ? SCAN_SPEED_DEEP : staticScanSpeed; // Set Default Scan Speed
 		context.put(CFG_STATIC_SCAN_SPEED, staticScanSpeed);
 	}
 	

@@ -6,7 +6,7 @@
 	[@ui.bambooSection dependsOn="selectedTestType" showOn="DynamicAnalyzer"]
 		[@ww.textfield labelKey="label.target" name="target" descriptionKey="desc.target" required="true"/]
 		[@ww.select labelKey="dyn.label.scan.type" name="ScanType" descriptionKey="desc.dynScanType" list="scanTypeList"/]
-		[@ww.select labelKey="dyn.label.test.optimization" name="TestOptimizationLevel" descriptionKey="desc.dyn.testOptimization" list="testOptimizationList"/]
+		[@ww.radio labelKey="dyn.label.test.optimization" name="TestOptimizationLevel" descriptionKey="desc.dyn.testOptimization" list="testOptimizationList" toggle="true"/]
 		[@ww.textfield labelKey="dyn.label.login.user" name="LoginUser" descriptionKey="desc.dynLoginUser"/]
 		[@ww.password labelKey="dyn.label.login.password" name="LoginPassword" descriptionKey="desc.dynLoginPassword" showPassword="true"/]
 		[@ww.textfield labelKey="dyn.label.third.credential" name="extraField" descriptionKey="dyn.thirdCred"/]
