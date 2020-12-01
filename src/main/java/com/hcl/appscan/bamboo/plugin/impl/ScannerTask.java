@@ -140,6 +140,9 @@ public class ScannerTask implements TaskType, IScannerConstants {
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 			return result.failedWithError().build();
+		} catch (TaskFailedException e) {
+			logger.error(e.getLocalizedMessage());
+			return result.failedWithError().build();
 		}
 	}
 

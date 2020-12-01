@@ -92,7 +92,7 @@ public abstract class AbstractASoCScanner implements IScanner {
 	}
 
 	@Override
-	public void waitAndDownloadResult(TaskContext taskContext) throws TaskException, InterruptedException {
+	public void waitAndDownloadResult(TaskContext taskContext) throws TaskException, InterruptedException, TaskFailedException {
 		waitForReady(taskContext);
 		downloadResult(taskContext);
 	}
@@ -139,12 +139,12 @@ public abstract class AbstractASoCScanner implements IScanner {
 	}
 
 	@Override
-	public void waitForReady(TaskContext taskContext) throws TaskException, InterruptedException {
+	public void waitForReady(TaskContext taskContext) throws TaskException, InterruptedException, TaskFailedException {
 		setRetryInterval(taskContext);
 
 		resultsRetriever.waitForResults();
 		if (resultsRetriever.hasFailed()) {
-			throw new TaskException(resultsRetriever.getMessage());
+			throw new TaskFailedException(resultsRetriever.getMessage());
 		} else {
 			low = provider.getLowCount();
 			medium = provider.getMediumCount();

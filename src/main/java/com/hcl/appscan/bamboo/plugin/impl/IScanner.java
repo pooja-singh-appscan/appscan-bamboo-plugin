@@ -28,9 +28,9 @@ public interface IScanner extends IScannerConstants, IArtifactPublisher {
 
 	public File initWorkingDir(TaskContext taskContext) throws TaskException, ArtifactsUnavailableException;
 
-	public void waitAndDownloadResult(TaskContext taskContext) throws TaskException, InterruptedException;
+	public void waitAndDownloadResult(TaskContext taskContext) throws TaskException, InterruptedException, TaskFailedException;
 
-	public void waitForReady(TaskContext taskContext) throws TaskException, InterruptedException;
+	public void waitForReady(TaskContext taskContext) throws TaskException, InterruptedException, TaskFailedException;
 
 	public void downloadResult(TaskContext taskContext) throws TaskException;
 

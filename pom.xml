@@ -72,7 +72,7 @@ LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
         <dependency>
             <groupId>com.hcl</groupId>
             <artifactId>appscan.sdk</artifactId>
-            <version>1.0.18</version>
+            <version>1.0.19</version>
         </dependency>
 
         <!-- WIRED TEST RUNNER DEPENDENCIES -->
