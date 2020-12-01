@@ -25,7 +25,7 @@ public class ScanProgress implements IProgress, Serializable {
 
     @Override
     public void setStatus(Throwable throwable) {
-        logger.error(throwable.getLocalizedMessage());
+        logger.error(throwable.getLocalizedMessage() != null ? throwable.getLocalizedMessage() : throwable.toString());
     }
 
     @Override
