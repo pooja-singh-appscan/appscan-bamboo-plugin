@@ -70,6 +70,8 @@ public abstract class AbstractASoCScanner implements IScanner {
 
 	protected Map<String, String> getScanProperties(TaskContext taskContext) throws ArtifactsUnavailableException {
 		Map<String, String> properties = new HashMap<String, String>();
+		String PLUGIN_VERSION = "1.0.0";
+		String CLIENT_NAME = "Bamboo";
 		addEntryMap(properties, CoreConstants.SCANNER_TYPE, getScannerType());
 		addEntryMap(properties, CoreConstants.APP_ID, taskContext.getConfigurationMap().get(CFG_APP_ID));
 		
@@ -80,10 +82,10 @@ public abstract class AbstractASoCScanner implements IScanner {
 		addEntryMap(properties, CoreConstants.SCAN_NAME, scanName); //$NON-NLS-1$
 		
 		addEntryMap(properties, CoreConstants.EMAIL_NOTIFICATION, taskContext.getConfigurationMap().getAsBoolean(CFG_EMAIL_NOTIFICATION));
-		addEntryMap(properties, SASTConstants.APPSCAN_IRGEN_CLIENT, "Bamboo");
-		addEntryMap(properties, SASTConstants.APPSCAN_CLIENT_VERSION, System.getProperty(SDK_VERSION_KEY, ""));
-		addEntryMap(properties, SASTConstants.IRGEN_CLIENT_PLUGIN_VERSION, "1");
-		addEntryMap(properties, "ClientType", "Bamboo-" + SystemUtil.getOS() + "-" + "1");
+		addEntryMap(properties, SASTConstants.APPSCAN_IRGEN_CLIENT, CLIENT_NAME);
+		//addEntryMap(properties, SASTConstants.APPSCAN_CLIENT_VERSION, System.getProperty(SDK_VERSION_KEY, ""));
+		addEntryMap(properties, SASTConstants.IRGEN_CLIENT_PLUGIN_VERSION, PLUGIN_VERSION);
+		addEntryMap(properties, "ClientType", CLIENT_NAME + "-" + SystemUtil.getOS() + "-" + PLUGIN_VERSION);
 		return properties;
 	}
 
