@@ -35,7 +35,7 @@ public class ResultsRetriever {
 		this.retryInterval = retryInterval;
 	}
 
-	public void waitForResults() {
+	public void waitForResults() throws InterruptedException {
 		retryInterval = Math.max(retryInterval, IScannerConstants.MIN_RETRY_INTERVAL);
 		retryFailedCount = Math.max(retryFailedCount, IScannerConstants.FAILED_RETRY_COUNT);
 
@@ -55,6 +55,7 @@ public class ResultsRetriever {
 			try {
 				Thread.sleep(retryInterval * 1000L);
 			} catch (InterruptedException e) {
+				throw e;
 			}
 		}
 
