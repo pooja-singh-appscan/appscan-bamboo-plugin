@@ -15,6 +15,8 @@ public interface IScannerConstants {
 
 	String CFG_SELECTED_UTIL			= "selectedUtil";			//$NON-NLS-1$
 	String CFG_SELECTED_CRED			= "selectedCred";			//$NON-NLS-1$
+	String CFG_API_KEY					= "apiKey";					//$NON-NLS-1$
+	String CFG_API_SECRET				= "apiSecret";				//$NON-NLS-1$
 	String CFG_APP_ID					= "appId";					//$NON-NLS-1$
 	String CFG_SCAN_NAME				= "scanName";				//$NON-NLS-1$
 	String CFG_SUSPEND					= "suspendJob";				//$NON-NLS-1$

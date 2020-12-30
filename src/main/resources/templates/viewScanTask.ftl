@@ -1,5 +1,6 @@
 [@ui.bambooSection titleKey="section.asoc"]
-	[@ww.label labelKey="label.cred" name="selectedCred" descriptionKey="desc.cred"/]
+	[@ww.label labelKey="label.api.keyid" name="apiKey" descriptionKey="desc.api.keyId"/]
+	[@ww.label labelKey="label.api.secret" name="apiSecret" descriptionKey="desc.api.secret"/]
 	[@ww.label labelKey="label.appid" name="appId" descriptionKey="desc.appid"/]
 	[@ww.label labelKey="label.scanName" name="scanName" descriptionKey="desc.scanName"/]
 	[@ww.label labelKey="label.test.type" name="selectedTestType" descriptionKey="desc.testType"/]

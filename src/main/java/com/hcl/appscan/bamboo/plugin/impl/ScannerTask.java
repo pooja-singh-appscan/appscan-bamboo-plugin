@@ -6,9 +6,6 @@
 package com.hcl.appscan.bamboo.plugin.impl;
 
 import com.atlassian.bamboo.build.artifact.ArtifactManager;
-import com.atlassian.bamboo.configuration.ConfigurationMap;
-import com.atlassian.bamboo.credentials.CredentialsData;
-import com.atlassian.bamboo.credentials.CredentialsManager;
 import com.atlassian.bamboo.process.ProcessService;
 import com.atlassian.bamboo.task.TaskContext;
 import com.atlassian.bamboo.task.TaskException;
@@ -18,6 +15,7 @@ import com.atlassian.bamboo.task.TaskType;
 import com.atlassian.bamboo.utils.i18n.I18nBeanFactory;
 import com.atlassian.bamboo.v2.build.agent.capability.CapabilityContext;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
+import com.hcl.appscan.bamboo.plugin.auth.AppScanAPICredentials;
 import com.hcl.appscan.bamboo.plugin.util.ExecutorUtil;
 import com.hcl.appscan.sdk.error.InvalidTargetException;
 import com.hcl.appscan.sdk.error.ScannerException;
@@ -35,7 +33,6 @@ public class ScannerTask implements TaskType, IScannerConstants {
 	private IScanner scanner;
 
 	private ArtifactManager artifactManager;
-	private CredentialsManager credentialsManager;
 	private CapabilityContext capabilityContext;
 	private ProcessService processService;
 
@@ -43,24 +40,23 @@ public class ScannerTask implements TaskType, IScannerConstants {
 			@ComponentImport I18nBeanFactory i18nBeanFactory,
 			@ComponentImport ProcessService processService,
 			@ComponentImport ArtifactManager artifactManager,
-			@ComponentImport CredentialsManager credentialsManager,
 			@ComponentImport CapabilityContext capabilityContext) {
 
 		logger = new LogHelper(i18nBeanFactory.getI18nBean());
 
 		this.artifactManager = artifactManager;
-		this.credentialsManager = credentialsManager;
 		this.capabilityContext = capabilityContext;
 		this.processService = processService;
 	}
 
 	private void setUsernameAndPassword(TaskContext taskContext) {
-		String id = taskContext.getConfigurationMap().get(CFG_SELECTED_CRED);
-		CredentialsData credentials = credentialsManager.getCredentials(Long.parseLong(id));
+		String keyId = taskContext.getConfigurationMap().get(CFG_API_KEY);
+		String secret = taskContext.getConfigurationMap().get(CFG_API_SECRET);
+		AppScanAPICredentials credentials = new AppScanAPICredentials(keyId, secret);
 		scanner.setCredential(credentials);
 
 		// this ensures password is masked in build log
-		taskContext.getBuildContext().getVariableContext().addLocalVariable("asoc_password", credentials.getConfiguration().get("password")); //$NON-NLS-1$
+		taskContext.getBuildContext().getVariableContext().addLocalVariable("asoc_password", credentials.getPassword()); //$NON-NLS-1$
 	}
 
 	private boolean checkFail(String value, String key, long actual) {

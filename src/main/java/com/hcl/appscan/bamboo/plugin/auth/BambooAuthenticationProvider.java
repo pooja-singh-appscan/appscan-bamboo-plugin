@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BambooAuthenticationProvider implements IAuthenticationProvider, Serializable {
-	CredentialsData credential;
+	AppScanAPICredentials credential;
 	String token;
 
-	public BambooAuthenticationProvider(CredentialsData credential) {
+	public BambooAuthenticationProvider(AppScanAPICredentials credential) {
 		this.credential = credential;
 		token = null;
 	}
@@ -32,7 +32,7 @@ public class BambooAuthenticationProvider implements IAuthenticationProvider, Se
 		AuthenticationHandler handler = new AuthenticationHandler(this);
 
 		try {
-			isExpired = handler.isTokenExpired() && !handler.login(Utility.getUserName(credential), Utility.getPlainTextPassword(credential), true, LoginType.ASoC_Federated);
+			isExpired = handler.isTokenExpired() && !handler.login(credential.getKeyId(), credential.getPassword(), true, LoginType.ASoC_Federated);
 		} catch (Exception e) {
 			isExpired = false;
 		}
@@ -54,7 +54,7 @@ public class BambooAuthenticationProvider implements IAuthenticationProvider, Se
 
 	@Override
 	public String getServer() {
-		return SystemUtil.getServer(Utility.getUserName(credential));
+		return SystemUtil.getServer(credential.getKeyId());
 	}
 
 	@Override
