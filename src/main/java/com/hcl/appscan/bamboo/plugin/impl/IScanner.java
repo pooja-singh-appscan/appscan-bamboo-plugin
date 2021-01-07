@@ -8,6 +8,7 @@ package com.hcl.appscan.bamboo.plugin.impl;
 import com.atlassian.bamboo.credentials.CredentialsData;
 import com.atlassian.bamboo.task.TaskContext;
 import com.atlassian.bamboo.task.TaskException;
+import com.hcl.appscan.bamboo.plugin.auth.AppScanAPICredentials;
 import com.hcl.appscan.sdk.error.InvalidTargetException;
 import com.hcl.appscan.sdk.error.ScannerException;
 
@@ -18,7 +19,7 @@ public interface IScanner extends IScannerConstants, IArtifactPublisher {
 	public String SA_DIR = ".sa";
 	public String SDK_VERSION_KEY = "atlassian.sdk.version";
 
-	public void setCredential(CredentialsData credentials);
+	public void setCredential(AppScanAPICredentials credentials);
 
 	public void setWorkingDir(File workingDir);
 

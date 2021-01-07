@@ -11,6 +11,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
+import com.atlassian.sal.api.component.ComponentLocator;
 import com.hcl.appscan.bamboo.plugin.util.Utility;
 import com.hcl.appscan.sdk.CoreConstants;
 import com.hcl.appscan.sdk.scanners.dynamic.DASTConstants;
@@ -18,8 +19,6 @@ import com.hcl.appscan.sdk.scanners.sast.SASTConstants;
 import org.apache.commons.lang3.StringUtils;
 
 import com.atlassian.bamboo.collections.ActionParametersMap;
-import com.atlassian.bamboo.credentials.CredentialsData;
-import com.atlassian.bamboo.credentials.CredentialsManager;
 import com.atlassian.bamboo.task.AbstractTaskConfigurator;
 import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.bamboo.task.TaskRequirementSupport;
@@ -40,29 +39,17 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 	private static final String STATIC_SCAN_SPEED_LIST = "staticScanSpeedList";		//$NON-NLS-1$
 
 	private UIConfigSupport uiConfigSupport;
-	private CredentialsManager credentialsManager;
 	private I18nBean i18nBean;
 	
 	public ScanTaskConfigurator(
-			@ComponentImport UIConfigSupport uiConfigSupport, 
-			@ComponentImport CredentialsManager credentialsManager, 
 			@ComponentImport I18nBeanFactory i18nBeanFactory) {
 		
-		this.uiConfigSupport = uiConfigSupport;
-		this.credentialsManager = credentialsManager;
+		this.uiConfigSupport = ComponentLocator.getComponent(UIConfigSupport.class);
 		this.i18nBean = i18nBeanFactory.getI18nBean();
 	}
-	
-	private Map<Long, String> getCredentials() {
-		Map<Long, String> credentials = new Hashtable<Long, String>();
-		for (CredentialsData data : credentialsManager.getAllCredentials())
-			credentials.put(data.getId(), data.getName());
-		return credentials;
-	}
-	
+
 	@Override
 	public void populateContextForCreate(Map<String, Object> context) {
-		context.put(CRED_LIST, getCredentials());
 		context.put(TEST_TYPE_LIST, Utility.getTestTypes());
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations(i18nBean));
@@ -75,14 +62,14 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 	
 	@Override
 	public void populateContextForEdit(Map<String, Object> context, TaskDefinition taskDefinition) {
-		context.put(CRED_LIST, getCredentials());
 		context.put(TEST_TYPE_LIST, Utility.getTestTypes());
 		context.put(SCAN_TYPE_LIST, Utility.getScanTypes());
 		context.put(TEST_OPTIMIZATION_LIST, Utility.getTestOptimizations(i18nBean));
 		context.put(FAIL_BUILD_LIST, Utility.getFailBuildTypes(i18nBean));
 		context.put(STATIC_SCAN_SPEED_LIST, Utility.getStaticScanSpeedList(i18nBean));
 		Map<String, String> config = taskDefinition.getConfiguration();
-		context.put(CFG_SELECTED_CRED, config.get(CFG_SELECTED_CRED));
+		context.put(CFG_API_KEY, config.get(CFG_API_KEY));
+		context.put(CFG_API_SECRET, config.get(CFG_API_SECRET));
 		context.put(CFG_SEL_TEST_TYPE, config.get(CFG_SEL_TEST_TYPE));
 		context.put(CFG_APP_ID, config.get(CFG_APP_ID));
 		context.put(CFG_SCAN_NAME, config.get(CFG_SCAN_NAME));
@@ -124,7 +111,8 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 	
 	@Override
 	public void validate(ActionParametersMap params, ErrorCollection errorCollection) {
-		validateRequired(params, errorCollection, CFG_SELECTED_CRED);
+		validateRequired(params, errorCollection, CFG_API_KEY);
+		validateRequired(params, errorCollection, CFG_API_SECRET);
 		validateRequired(params, errorCollection, CFG_APP_ID);
 		validateRequired(params, errorCollection, CFG_SEL_TEST_TYPE);
 		if (params.getString(CFG_SEL_TEST_TYPE) != null && DASTConstants.DYNAMIC_ANALYZER.equals(params.getString(CFG_SEL_TEST_TYPE))) {
@@ -139,7 +127,8 @@ public class ScanTaskConfigurator extends AbstractTaskConfigurator implements Ta
 	@Override
 	public Map<String, String> generateTaskConfigMap(ActionParametersMap params, TaskDefinition previousTaskDefinition) {
 		Map<String, String> config = super.generateTaskConfigMap(params, previousTaskDefinition);
-		config.put(CFG_SELECTED_CRED, params.getString(CFG_SELECTED_CRED));
+		config.put(CFG_API_KEY, params.getString(CFG_API_KEY));
+		config.put(CFG_API_SECRET, params.getString(CFG_API_SECRET));
 		config.put(CFG_SEL_TEST_TYPE, params.getString(CFG_SEL_TEST_TYPE));
 		config.put(CFG_APP_ID, params.getString(CFG_APP_ID));
 		config.put(CFG_SCAN_NAME, params.getString(CFG_SCAN_NAME));
