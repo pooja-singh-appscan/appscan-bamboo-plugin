@@ -59,8 +59,8 @@ public interface IScannerConstants {
 	String OPTIMIZATION_FASTEST			= "Fastest";				//$NON-NLS-1$
 	String NO_OPTIMIZATION				= "NoOptimization";			//$NON-NLS-1$
 
-	String PLUGIN_VERSION               = "1.0.0";			        //$NON-NLS-1$
-	String CLIENT_NAME                  = "Bamboo";			        //$NON-NLS-1$
+	String PLUGIN_VERSION				= "1.0.0";					//$NON-NLS-1$
+	String CLIENT_NAME					= "Bamboo";					//$NON-NLS-1$
 
 	File BAMBOO_APPSCAN_INSTALL_DIR		= new File(System.getProperty("user.dir"),".appscan");	//$NON-NLS-1$ //$NON-NLS-2$
 }
