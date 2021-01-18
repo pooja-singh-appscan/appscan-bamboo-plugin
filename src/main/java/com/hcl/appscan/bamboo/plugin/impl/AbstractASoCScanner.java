@@ -1,5 +1,5 @@
 /**
- * (c) Copyright HCL Technologies Ltd. 2020.
+ * (c) Copyright HCL Technologies Ltd. 2020, 2021.
  * LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -71,8 +71,6 @@ public abstract class AbstractASoCScanner implements IScanner {
 
 	protected Map<String, String> getScanProperties(TaskContext taskContext) throws ArtifactsUnavailableException {
 		Map<String, String> properties = new HashMap<String, String>();
-		String PLUGIN_VERSION = "1.0.0";
-		String CLIENT_NAME = "Bamboo";
 		addEntryMap(properties, CoreConstants.SCANNER_TYPE, getScannerType());
 		addEntryMap(properties, CoreConstants.APP_ID, taskContext.getConfigurationMap().get(CFG_APP_ID));
 		
