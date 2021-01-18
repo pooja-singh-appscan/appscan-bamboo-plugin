@@ -1,5 +1,5 @@
 /**
- * (c) Copyright HCL Technologies Ltd. 2020.
+ * (c) Copyright HCL Technologies Ltd. 2020, 2021.
  * LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -7,7 +7,6 @@ package com.hcl.appscan.bamboo.plugin.impl;
 
 import com.atlassian.bamboo.build.artifact.ArtifactManager;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
-import com.atlassian.bamboo.credentials.CredentialsData;
 import com.atlassian.bamboo.plan.artifact.ArtifactDefinitionContext;
 import com.atlassian.bamboo.plan.artifact.ArtifactDefinitionContextImpl;
 import com.atlassian.bamboo.plan.artifact.ArtifactPublishingResult;
@@ -15,6 +14,7 @@ import com.atlassian.bamboo.task.TaskContext;
 import com.atlassian.bamboo.task.TaskException;
 import com.atlassian.bamboo.variable.VariableContext;
 import com.atlassian.bamboo.variable.VariableDefinitionContext;
+import com.hcl.appscan.bamboo.plugin.auth.AppScanAPICredentials;
 import com.hcl.appscan.sdk.CoreConstants;
 import com.hcl.appscan.sdk.results.IResultsProvider;
 import com.hcl.appscan.sdk.scanners.sast.SASTConstants;
@@ -31,7 +31,7 @@ public abstract class AbstractASoCScanner implements IScanner {
 	protected ResultsRetriever resultsRetriever;
 	protected IResultsProvider provider;
 
-	protected CredentialsData credential;
+	protected AppScanAPICredentials credential;
 	protected File workingDir;
 	protected String utilPath;
 
@@ -49,7 +49,8 @@ public abstract class AbstractASoCScanner implements IScanner {
 	public void publishArtifact(TaskContext taskContext, String name, File directory, String pattern) {
 		logger.info("publish.artifact", name); //$NON-NLS-1$
 
-		ArtifactDefinitionContext artifact = new ArtifactDefinitionContextImpl(name, true, null);
+		ArtifactDefinitionContext artifact = new ArtifactDefinitionContextImpl(name, true,
+				taskContext.getBuildContext().getArtifactContext().getSecureToken());
 		artifact.setCopyPattern(pattern);
 
 		ArtifactPublishingResult result = artifactManager.publish(
@@ -64,14 +65,12 @@ public abstract class AbstractASoCScanner implements IScanner {
 	}
 
 	@Override
-	public void setCredential(CredentialsData credentials) {
+	public void setCredential(AppScanAPICredentials credentials) {
 		this.credential = credentials;
 	}
 
 	protected Map<String, String> getScanProperties(TaskContext taskContext) throws ArtifactsUnavailableException {
 		Map<String, String> properties = new HashMap<String, String>();
-		String PLUGIN_VERSION = "1.0.0";
-		String CLIENT_NAME = "Bamboo";
 		addEntryMap(properties, CoreConstants.SCANNER_TYPE, getScannerType());
 		addEntryMap(properties, CoreConstants.APP_ID, taskContext.getConfigurationMap().get(CFG_APP_ID));
 		

@@ -1,6 +1,6 @@
 /**
  * (c) Copyright IBM Corporation 2016.
- * (c) Copyright HCL Technologies Ltd. 2020.
+ * (c) Copyright HCL Technologies Ltd. 2020, 2021.
  * LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -15,6 +15,8 @@ public interface IScannerConstants {
 
 	String CFG_SELECTED_UTIL			= "selectedUtil";			//$NON-NLS-1$
 	String CFG_SELECTED_CRED			= "selectedCred";			//$NON-NLS-1$
+	String CFG_API_KEY					= "apiKey";					//$NON-NLS-1$
+	String CFG_API_SECRET				= "apiSecret";				//$NON-NLS-1$
 	String CFG_APP_ID					= "appId";					//$NON-NLS-1$
 	String CFG_SCAN_NAME				= "scanName";				//$NON-NLS-1$
 	String CFG_SUSPEND					= "suspendJob";				//$NON-NLS-1$
@@ -58,6 +60,9 @@ public interface IScannerConstants {
 	String OPTIMIZATION_FASTER			= "Faster";					//$NON-NLS-1$
 	String OPTIMIZATION_FASTEST			= "Fastest";				//$NON-NLS-1$
 	String NO_OPTIMIZATION				= "NoOptimization";			//$NON-NLS-1$
+
+	String PLUGIN_VERSION				= "1.0.0";			        //$NON-NLS-1$
+	String CLIENT_NAME				    = "Bamboo";			        //$NON-NLS-1$
 
 	File BAMBOO_APPSCAN_INSTALL_DIR		= new File(System.getProperty("user.dir"),".appscan");	//$NON-NLS-1$ //$NON-NLS-2$
 }
