@@ -1,5 +1,5 @@
 /**
- * (c) Copyright HCL Technologies Ltd. 2020.
+ * (c) Copyright HCL Technologies Ltd. 2020, 2021.
  * LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -138,7 +138,6 @@ public class ScannerTask implements TaskType, IScannerConstants {
 			Thread.currentThread().interrupt();
 			return result.failedWithError().build();
 		} catch (TaskFailedException e) {
-			logger.error(e.getLocalizedMessage());
 			return result.failedWithError().build();
 		}
 	}

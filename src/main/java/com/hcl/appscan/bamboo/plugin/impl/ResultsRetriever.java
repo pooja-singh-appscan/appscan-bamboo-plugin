@@ -1,5 +1,5 @@
 /**
- * (c) Copyright HCL Technologies Ltd. 2020.
+ * (c) Copyright HCL Technologies Ltd. 2020, 2021.
  * LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -41,15 +41,15 @@ public class ResultsRetriever {
 
 		int failedCount = 0;
 		while (failedCount < retryFailedCount) {
-			boolean hasResults = provider.hasResults();
 			status = provider.getStatus();
 			message = provider.getMessage();
 
-			if (hasResults) return;
+			if (CoreConstants.FAILED.equalsIgnoreCase(status)) 
+				break;
 			else if (status == null) {
 				failedCount++;
-			} else if (CoreConstants.FAILED.equalsIgnoreCase(status)) {
-				break;
+			} else if (provider.hasResults()) {
+				return;
 			} else failedCount = 0;
 
 			try {
