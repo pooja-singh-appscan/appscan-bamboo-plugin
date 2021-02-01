@@ -1,5 +1,5 @@
 /**
- * (c) Copyright HCL Technologies Ltd. 2020.
+ * (c) Copyright HCL Technologies Ltd. 2020, 2021.
  * LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -69,7 +69,8 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 		jobId = scan.getScanId();
 
 		// Publish generated IRX File to current Build
-		publishArtifact(taskContext, logger.getText("irx.file"), workingDir, scan.getIrx().getName());
+		publishArtifact(taskContext, logger.getText("irx.file", taskContext.getId()), workingDir, scan.getIrx().getName());
+		publishArtifact(taskContext, logger.getText("irx.logs", taskContext.getId()), workingDir, scan.getName()  + "*.zip");
 		logger.info("scan.schedule.success", jobId);
 		String homepageUrl = authenticationProvider.getServer() + "/serviceui/main/myapps/portfolio";
 		logger.info("asoc.homepage.url", homepageUrl);

@@ -14,6 +14,7 @@ import com.atlassian.bamboo.task.TaskContext;
 import com.atlassian.bamboo.task.TaskException;
 import com.atlassian.bamboo.variable.VariableContext;
 import com.atlassian.bamboo.variable.VariableDefinitionContext;
+import com.atlassian.core.util.FileUtils;
 import com.hcl.appscan.bamboo.plugin.auth.AppScanAPICredentials;
 import com.hcl.appscan.sdk.CoreConstants;
 import com.hcl.appscan.sdk.results.IResultsProvider;
@@ -75,7 +76,7 @@ public abstract class AbstractASoCScanner implements IScanner {
 		addEntryMap(properties, CoreConstants.APP_ID, taskContext.getConfigurationMap().get(CFG_APP_ID));
 		
 		String scanName = taskContext.getConfigurationMap().get(CFG_SCAN_NAME);
-		if (scanName == null || scanName.trim() == "") {
+		if (scanName == null || scanName.trim().isEmpty()) {
 			scanName = taskContext.getBuildContext().getPlanName() + "_" + SystemUtil.getTimeStamp();
 		}
 		addEntryMap(properties, CoreConstants.SCAN_NAME, scanName); //$NON-NLS-1$
@@ -170,11 +171,18 @@ public abstract class AbstractASoCScanner implements IScanner {
 
 	@Override
 	public void downloadResult(TaskContext taskContext) throws TaskException {
-		String reportName = taskContext.getBuildContext().getPlanName().replaceAll(" ", "") + REPORT_SUFFIX + "." + provider.getResultsFormat().toLowerCase();
+		String reportName = (taskContext.getBuildContext().getProjectName() + "_" + taskContext.getBuildContext().getShortName() + "_" + SystemUtil.getTimeStamp()).replaceAll(" ", "") + REPORT_SUFFIX + "." + provider.getResultsFormat().toLowerCase();
 		File file = new File(workingDir, reportName);
 		if (!file.isFile())
 			provider.getResultsFile(file, null);
 
-		publishArtifact(taskContext, logger.getText("result.artifact"), workingDir, reportName);
+		publishArtifact(taskContext, logger.getText("result.artifact", taskContext.getId()), workingDir, reportName);
+	}
+
+	@Override
+	public void cleanUpWorkingDir(TaskContext taskContext) throws Exception {
+		if (workingDir != null && workingDir.exists()) {
+			FileUtils.deleteDir(workingDir);
+		}
 	}
 }

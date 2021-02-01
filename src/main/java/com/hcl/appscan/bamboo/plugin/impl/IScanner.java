@@ -1,5 +1,5 @@
 /**
- * (c) Copyright HCL Technologies Ltd. 2020.
+ * (c) Copyright HCL Technologies Ltd. 2020, 2021.
  * LICENSE: Apache License, Version 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -34,6 +34,8 @@ public interface IScanner extends IScannerConstants, IArtifactPublisher {
 	public void waitForReady(TaskContext taskContext) throws TaskException, InterruptedException, TaskFailedException;
 
 	public void downloadResult(TaskContext taskContext) throws TaskException;
+
+	public void cleanUpWorkingDir(TaskContext taskContext) throws Exception;
 
 	public Map<String, String> getFailSeverityLevelConfig(TaskContext taskContext);
 

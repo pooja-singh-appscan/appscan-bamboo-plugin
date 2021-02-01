@@ -98,47 +98,54 @@ public class ScannerTask implements TaskType, IScannerConstants {
 		setUsernameAndPassword(taskContext);
 		TaskResultBuilder result = TaskResultBuilder.newBuilder(taskContext);
 		try {
-			scanner.setWorkingDir(scanner.initWorkingDir(taskContext));
-			scanner.scheduleScan(taskContext);
-		} catch (InvalidTargetException e) {
-			logger.error("err.scan.schedule", e.getLocalizedMessage());
-			return result.failedWithError().build();
-		} catch (ScannerException e) {
-			logger.error("err.scan.schedule", e.getLocalizedMessage());
-			return result.failedWithError().build();
-		} catch (ArtifactsUnavailableException e) {
-			logger.error(e.getLocalizedMessage());
-			return result.failedWithError().build();
-		}
-
-		try {
-			if (taskContext.getConfigurationMap().getAsBoolean(CFG_SUSPEND)) {
-				scanner.waitAndDownloadResult(taskContext);
-				return calculateResult(taskContext, result).build();
-			}  else {
-				final TaskContext taskContext1 = taskContext;
-				final IScanner scanner1 = scanner;
-				final LogHelper logger1 = logger;
-				Callable<Boolean> callable = new Callable<Boolean>() {
-					@Override
-					public Boolean call() throws Exception {
-						try {
-							scanner1.waitAndDownloadResult(taskContext1);
-						} catch (Exception e) {
-							logger1.error("scan.error", e.getLocalizedMessage());
-						}
-						return true;
-					}
-				};
-				Future future = ExecutorUtil.submitTask(callable);
+			try {
+				scanner.setWorkingDir(scanner.initWorkingDir(taskContext));
+				scanner.scheduleScan(taskContext);
+			} catch (InvalidTargetException e) {
+				logger.error("err.scan.schedule", e.getLocalizedMessage());
+				return result.failedWithError().build();
+			} catch (ScannerException e) {
+				logger.error("err.scan.schedule", e.getLocalizedMessage());
+				return result.failedWithError().build();
+			} catch (ArtifactsUnavailableException e) {
+				logger.error(e.getLocalizedMessage());
+				return result.failedWithError().build();
 			}
-			return result.success().build();
-		} catch (InterruptedException e) {
-			logger.error("scan.interrupt");
-			Thread.currentThread().interrupt();
-			return result.failedWithError().build();
-		} catch (TaskFailedException e) {
-			return result.failedWithError().build();
+
+			try {
+				if (taskContext.getConfigurationMap().getAsBoolean(CFG_SUSPEND)) {
+					scanner.waitAndDownloadResult(taskContext);
+					return calculateResult(taskContext, result).build();
+				} else {
+					final TaskContext taskContext1 = taskContext;
+					final IScanner scanner1 = scanner;
+					final LogHelper logger1 = logger;
+					Callable<Boolean> callable = new Callable<Boolean>() {
+						@Override
+						public Boolean call() throws Exception {
+							try {
+								scanner1.waitAndDownloadResult(taskContext1);
+							} catch (Exception e) {
+								logger1.error("scan.error", e.getLocalizedMessage());
+							}
+							return true;
+						}
+					};
+					Future future = ExecutorUtil.submitTask(callable);
+				}
+				return result.success().build();
+			} catch (InterruptedException e) {
+				logger.error("scan.interrupt");
+				Thread.currentThread().interrupt();
+				return result.failedWithError().build();
+			} catch (TaskFailedException e) {
+				return result.failedWithError().build();
+			}
+		} finally {
+			try {
+				scanner.cleanUpWorkingDir(taskContext);
+			} catch (Exception e) {
+			}
 		}
 	}
 
