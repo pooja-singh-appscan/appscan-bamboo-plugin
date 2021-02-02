@@ -69,8 +69,7 @@ public class ASoCSASTScanner extends AbstractASoCScanner {
 		jobId = scan.getScanId();
 
 		// Publish generated IRX File to current Build
-		publishArtifact(taskContext, logger.getText("irx.file", taskContext.getId()), workingDir, scan.getIrx().getName());
-		publishArtifact(taskContext, logger.getText("irx.logs", taskContext.getId()), workingDir, scan.getName()  + "*.zip");
+		publishArtifact(taskContext, logger.getText("scan.logs", taskContext.getId()), workingDir, scan.getName()  + "*.*");
 		logger.info("scan.schedule.success", jobId);
 		String homepageUrl = authenticationProvider.getServer() + "/serviceui/main/myapps/portfolio";
 		logger.info("asoc.homepage.url", homepageUrl);
