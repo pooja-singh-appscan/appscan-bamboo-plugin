@@ -65,13 +65,13 @@ Easily integrates security scanning into your Atlassian Bamboo builds. This plug
 
    - **Extra Field**: If your app requires a third credential, enter it in this field.
 
-   - **Presence**: If your app is not on the internet, select your AppScan Presence from the list. Information about creating an AppScan Presence is available here.
+   - **Presence**: If your app is not on the internet, select your AppScan Presence from the list. Information about creating an AppScan Presence is available [here](https://help.hcltechsw.com/appscan/ASoC/asp_scanning.html).
 
-   - **Scan File**: If you have an AppScan Standard scan file, enter its full path and file name in this field. To learn more about AppScan Standard scan files, see this topic.
+   - **Scan File**: If you have an AppScan Standard scan file, enter its full path and file name in this field. To learn more about AppScan Standard scan files, see [this topic](https://help.hcltechsw.com/appscan/ASoC/asd_AppScanStandard.html).
 
  8. **Email Notification**: Select this checkbox to receive an email when the security analysis is complete. The email will be sent to the email address associated with the selected credentials. 
 
- 9. **Suspend job until security analysis completes**: If selected, the task will pause until security analysis has completed and the results have been retrieved from the service. If unselected, the job will continue once the scan has been submitted to th e analysis service.
+ 9. **Suspend job until security analysis completes**: If selected, the task will pause until security analysis has completed and the results have been retrieved from the service. If unselected, the job will continue once the scan has been submitted to the analysis service.
 
  10. **Configure Build Failure Criteria**: Select this checkbox to specify conditions that will cause the build to fail based on results of the security test.
       - **Fail build for non-compliance with application policies**: Select this option to fail the build if any security issues are found that are out of compliance with the policies of the selected application.
