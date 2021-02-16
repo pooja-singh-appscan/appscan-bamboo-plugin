@@ -6,8 +6,8 @@ Easily integrates security scanning into your Atlassian Bamboo builds. This plug
 
 - An account on the [HCL AppScan on Cloud](https://cloud.appscan.com/) service. Make a note of [API Key ID and Secret Key](https://help.hcltechsw.com/appscan/ASoC/appseccloud_generate_api_key_cm.html) of your HCL AppScan on Cloud account. This will be required later when configuring the scan task.
 - You'll also need to [create an application](https://help.hcltechsw.com/appscan/ASoC/ent_create_application.html) on the service. Make note of your application's numeric ID in the browser URL. This ID will be required later when configuring the scan task.
-- The plug-in has been tested to run on Bamboo server version: "version number" or later.
-- To build the plug-in, you will need to install the [Atlassian plug-in SDK](https://developer.atlassian.com/docs/getting-started). The plugin uploaded to Bamboo marketplace has been built with SDK version: "SDK version"
+- The plug-in has been tested to run on Bamboo server version: 6.8.0 or later.
+- To build the plug-in, you will need to install the [Atlassian plug-in SDK](https://developer.atlassian.com/docs/getting-started). The plugin uploaded to Bamboo marketplace has been built with SDK version: 8.0.16
 
 # Building the Plug-in
 
@@ -90,7 +90,7 @@ Easily integrates security scanning into your Atlassian Bamboo builds. This plug
    - Scan Results - HTML report of the security vulnerabilties that are found (only if waiting for the scan to complete option is selected) for each of the AppScan Security Scan task.
    ![](images/result1.png)
 
-2. Messages about the outcome of the scan will also be written to the build log:
+2. Messages about the outcome of each of the scan will also be written to the build log:
    ![](images/result2.png)
 
 # License
