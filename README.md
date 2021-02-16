@@ -19,11 +19,15 @@ Easily integrates security scanning into your Atlassian Bamboo builds. This plug
    
    - Install the built plug-in jar using "Upload app" option, via the Manage Apps section of Bamboo administration dashboard.
    - Install the plugin published to Atlassian Marketplace (recommended) via "Find new apps" link in the Manage Apps section of Bamboo administration dashboard.
+   - After installing the plug-in, it will appear in the list of user-installed add-ons.
+     ![](images/install1.png)
   
 
 # Configuring the AppScan Security Scan task for your Build Plan
 
-1. Add the AppScan Security Scan task to your build plan after your artifacts have been built. This task will generate an intermediate representation of your artifacts and submit it to the cloud service for scanning.
+1. Add the AppScan Security Scan task to your build plan after your artifacts have been built. Multiple AppScan Security Scan task can also be added to a job. 
+   ![](images/install2.png)
+   This task will generate an intermediate representation of your artifacts and submit it to the cloud service for scanning.
 
 2. **Task Description**: Specify a task description
    
@@ -81,11 +85,13 @@ Easily integrates security scanning into your Atlassian Bamboo builds. This plug
 
 1. The AppScan Security scan task publishes the following artifacts:
 
-   - IRX - Only for static scans. This is the intermediate representation of your artifacts that is uploaded to the cloud service for scanning.
+   - IRX - Only for each of the static scans. This is the intermediate representation of your artifacts that is uploaded to the cloud service for scanning.
    
-   - Scan Results - HTML report of the security vulnerabilties that are found (only if waiting for the scan to complete option is selected).
+   - Scan Results - HTML report of the security vulnerabilties that are found (only if waiting for the scan to complete option is selected) for each of the AppScan Security Scan task.
+   ![](images/result1.png)
 
 2. Messages about the outcome of the scan will also be written to the build log:
+   ![](images/result2.png)
 
 # License
 
