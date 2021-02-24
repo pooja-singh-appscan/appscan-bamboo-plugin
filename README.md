@@ -47,7 +47,7 @@ Easily integrates security scanning into your Atlassian Bamboo builds. This plug
     
     - **Open Source Only**: Select Open Source Only option to look only for known vulnerabilities in open source packages.
     
-    - **Select Scan Speed**: Select this optiom to specify a Scan optimization level based on need and time demands:
+    - **Select Scan Speed**: Select this option to specify a Scan optimization level based on need and time demands:
     
       - **Simple**: A simple scan performs a surface-level analysis of your files to identify the most pressing issues for remediation. It takes the least amount of time to complete.
       
